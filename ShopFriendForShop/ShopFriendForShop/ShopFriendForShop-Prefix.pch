@@ -1,0 +1,44 @@
+//
+//  Prefix header
+//
+//  The contents of this file are implicitly included at the beginning of every source file.
+//
+
+#import <Availability.h>
+#define ORIGINAL_MAX_WIDTH 640.0f
+#define naviHight 64
+#define DATABASE_PATH [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0]stringByAppendingString:@"/shopFriend.db"]
+#define FMDBQuickCheck(SomeBool) { if (!(SomeBool)) { NSLog(@"Failure on line %d", __LINE__); abort(); } }
+#define kXMPPNewMsgNotifaction @"xmppNewMsgNotifaction"
+#define kXMPPHost @"www.beautilut.com"
+
+#ifndef __IPHONE_5_0
+#warning "This project uses features only available in iOS SDK 5.0 and later."
+#endif
+
+#ifdef __OBJC__
+    #import <UIKit/UIKit.h>
+    #import <Foundation/Foundation.h>
+#import "SFXMPPManager.h"
+#import "DDLog.h"
+#import "UIImageView+WebCache.h"
+#import "NSObject_URLHeader.h"
+#import "ASIFormDataRequest.h"
+#import "SBJsonParser.h"
+#import "SBJson.h"
+#import "UserObject.h"
+#import "MessageModel.h"
+#import "ShopObject.h"
+#import "InfoManager.h"
+#import "MessageUserUnionObject.h"
+#import "MenuObject.h"
+#import "ProgressHUD.h"
+#import "CategoryModel.h"
+#import "SFSliderViewController.h"
+#endif
+
+#ifdef DEBUG
+static const int ddLogLevel = LOG_LEVEL_VERBOSE;
+#else
+static const int ddLogLevel = LOG_LEVEL_WARN;
+#endif

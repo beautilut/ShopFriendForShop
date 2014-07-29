@@ -320,8 +320,14 @@
 		3EEF676318DB4211001462F2 /* TSCurrencyTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EEF676118DB4211001462F2 /* TSCurrencyTextField.m */; };
 		3EF80B821935C03E006D5154 /* MenuInfoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EF80B811935C03E006D5154 /* MenuInfoCell.m */; };
 		3EF80B841935C060006D5154 /* MenuInfoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3EF80B831935C060006D5154 /* MenuInfoCell.xib */; };
+		DB048BCE1981F04B000E6455 /* ToolMethods.m in Sources */ = {isa = PBXBuildFile; fileRef = DB048BCD1981F04B000E6455 /* ToolMethods.m */; };
+		DB048BD11982A5D0000E6455 /* WebCouponMethods.m in Sources */ = {isa = PBXBuildFile; fileRef = DB048BD01982A5D0000E6455 /* WebCouponMethods.m */; };
+		DB048BD41983D449000E6455 /* CouponObject.m in Sources */ = {isa = PBXBuildFile; fileRef = DB048BD31983D449000E6455 /* CouponObject.m */; };
 		DB301386197AC6FA004498BB /* libbaidumapapi.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E35282718A7293100B73106 /* libbaidumapapi.a */; };
 		DB301387197AC712004498BB /* libidn.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E94691818BA3A6B00F09AA5 /* libidn.a */; };
+		DB30138A197DF991004498BB /* WebOrderMethods.m in Sources */ = {isa = PBXBuildFile; fileRef = DB301389197DF991004498BB /* WebOrderMethods.m */; };
+		DB30138D197DFA58004498BB /* OrderObject.m in Sources */ = {isa = PBXBuildFile; fileRef = DB30138C197DFA58004498BB /* OrderObject.m */; };
+		DB301391197E89E5004498BB /* OrderDetailObject.m in Sources */ = {isa = PBXBuildFile; fileRef = DB301390197E89E5004498BB /* OrderDetailObject.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -944,6 +950,18 @@
 		3EF80B801935C03E006D5154 /* MenuInfoCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MenuInfoCell.h; path = myCode/MenuInfoCell.h; sourceTree = "<group>"; };
 		3EF80B811935C03E006D5154 /* MenuInfoCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MenuInfoCell.m; path = myCode/MenuInfoCell.m; sourceTree = "<group>"; };
 		3EF80B831935C060006D5154 /* MenuInfoCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MenuInfoCell.xib; path = myCode/MenuInfoCell.xib; sourceTree = "<group>"; };
+		DB048BCC1981F04B000E6455 /* ToolMethods.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ToolMethods.h; path = ShopFriendForShop/myCode/ToolMethods.h; sourceTree = SOURCE_ROOT; };
+		DB048BCD1981F04B000E6455 /* ToolMethods.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ToolMethods.m; path = ShopFriendForShop/myCode/ToolMethods.m; sourceTree = SOURCE_ROOT; };
+		DB048BCF1982A5D0000E6455 /* WebCouponMethods.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WebCouponMethods.h; path = myCode/WebCouponMethods.h; sourceTree = "<group>"; };
+		DB048BD01982A5D0000E6455 /* WebCouponMethods.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WebCouponMethods.m; path = myCode/WebCouponMethods.m; sourceTree = "<group>"; };
+		DB048BD21983D449000E6455 /* CouponObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CouponObject.h; path = myCode/Model/CouponObject.h; sourceTree = "<group>"; };
+		DB048BD31983D449000E6455 /* CouponObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CouponObject.m; path = myCode/Model/CouponObject.m; sourceTree = "<group>"; };
+		DB301388197DF991004498BB /* WebOrderMethods.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WebOrderMethods.h; path = myCode/webMethods/WebOrderMethods.h; sourceTree = "<group>"; };
+		DB301389197DF991004498BB /* WebOrderMethods.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WebOrderMethods.m; path = myCode/webMethods/WebOrderMethods.m; sourceTree = "<group>"; };
+		DB30138B197DFA58004498BB /* OrderObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OrderObject.h; path = myCode/Model/OrderObject.h; sourceTree = "<group>"; };
+		DB30138C197DFA58004498BB /* OrderObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OrderObject.m; path = myCode/Model/OrderObject.m; sourceTree = "<group>"; };
+		DB30138F197E89E5004498BB /* OrderDetailObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OrderDetailObject.h; path = myCode/Model/OrderDetailObject.h; sourceTree = "<group>"; };
+		DB301390197E89E5004498BB /* OrderDetailObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OrderDetailObject.m; path = myCode/Model/OrderDetailObject.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1036,6 +1054,12 @@
 				3E6AFAA818CEFD780077DFD5 /* MenuObject.m */,
 				3E6AFAAA18CF0DAE0077DFD5 /* ShopObject.h */,
 				3E6AFAAB18CF0DAE0077DFD5 /* ShopObject.m */,
+				DB30138B197DFA58004498BB /* OrderObject.h */,
+				DB30138C197DFA58004498BB /* OrderObject.m */,
+				DB30138F197E89E5004498BB /* OrderDetailObject.h */,
+				DB301390197E89E5004498BB /* OrderDetailObject.m */,
+				DB048BD21983D449000E6455 /* CouponObject.h */,
+				DB048BD31983D449000E6455 /* CouponObject.m */,
 			);
 			name = models;
 			sourceTree = "<group>";
@@ -1285,6 +1309,8 @@
 				3E8A9C1418FDF43100415372 /* shopFriendImage */,
 				3E4E50CE1890A1670059CBD1 /* AppDelegate.h */,
 				3E4E50CF1890A1670059CBD1 /* AppDelegate.m */,
+				DB048BCC1981F04B000E6455 /* ToolMethods.h */,
+				DB048BCD1981F04B000E6455 /* ToolMethods.m */,
 				3E552C2418D1D101004E5A0C /* InfoManager.h */,
 				3E552C2518D1D101004E5A0C /* InfoManager.m */,
 				3E1F84E918CDCBFB0011C3AD /* SFXMPPManager.h */,
@@ -1384,6 +1410,7 @@
 		3E4E51811890A5F60059CBD1 /* code */ = {
 			isa = PBXGroup;
 			children = (
+				DB30138E197DFEA4004498BB /* New Group */,
 				3E1F84EC18CDCE5D0011C3AD /* models */,
 				3E25B2D118C73FEB00C4E3CD /* control */,
 				3E25B2CD18C7379200C4E3CD /* shopMainView */,
@@ -1418,6 +1445,10 @@
 			children = (
 				3E70C63A1970F34400FA7BF5 /* WebMenuMethods.h */,
 				3E70C63B1970F34400FA7BF5 /* WebMenuMethods.m */,
+				DB301388197DF991004498BB /* WebOrderMethods.h */,
+				DB301389197DF991004498BB /* WebOrderMethods.m */,
+				DB048BCF1982A5D0000E6455 /* WebCouponMethods.h */,
+				DB048BD01982A5D0000E6455 /* WebCouponMethods.m */,
 			);
 			name = webMethods;
 			sourceTree = "<group>";
@@ -2494,6 +2525,13 @@
 			path = otherSDK/control;
 			sourceTree = "<group>";
 		};
+		DB30138E197DFEA4004498BB /* New Group */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = "New Group";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -2710,6 +2748,7 @@
 				3E8A9C6918FDF61D00415372 /* UserAgreementViewController.m in Sources */,
 				3E94695518BA3A6B00F09AA5 /* XMPPvCardTempAdr.m in Sources */,
 				3E4E51501890A1F90059CBD1 /* ASIDataCompressor.m in Sources */,
+				DB048BCE1981F04B000E6455 /* ToolMethods.m in Sources */,
 				3E1F851918CDCF130011C3AD /* FMResultSet.m in Sources */,
 				3E9ACEDA18AB1EB100A85A18 /* SDWebImageManager.m in Sources */,
 				3EBD25E818D815AA009541A1 /* SFRefreshBaseView.m in Sources */,
@@ -2738,6 +2777,7 @@
 				3E94693718BA3A6B00F09AA5 /* XMPPRosterMemoryStorage.m in Sources */,
 				3E70C6251970BE7E00FA7BF5 /* MenuViewController.m in Sources */,
 				3E94692018BA3A6B00F09AA5 /* XMPPXOAuth2Google.m in Sources */,
+				DB048BD41983D449000E6455 /* CouponObject.m in Sources */,
 				3E94697C18BA3A6B00F09AA5 /* XMPPTime.m in Sources */,
 				3E552C2618D1D101004E5A0C /* InfoManager.m in Sources */,
 				3E94699618BA3A6B00F09AA5 /* DDXMLElement.m in Sources */,
@@ -2783,6 +2823,7 @@
 				3E8A9C7718FE3B2600415372 /* SettingListViewController.m in Sources */,
 				3E94692118BA3A6B00F09AA5 /* NSData+XMPP.m in Sources */,
 				3E94694618BA3A6B00F09AA5 /* XMPPRoomHybridStorage.m in Sources */,
+				DB301391197E89E5004498BB /* OrderDetailObject.m in Sources */,
 				3E4E518B1890AF860059CBD1 /* DisplayViewController.m in Sources */,
 				3E17C89D1890E6F000339EB7 /* RegisterMainViewController.m in Sources */,
 				3E8A9C8118FE9EBD00415372 /* InfoChangeViewController.m in Sources */,
@@ -2817,6 +2858,7 @@
 				3E94696718BA3A6B00F09AA5 /* XMPPTransports.m in Sources */,
 				3E94698618BA3A6B00F09AA5 /* GCDMulticastDelegate.m in Sources */,
 				3E94696118BA3A6B00F09AA5 /* XMPPIQ+XEP_0066.m in Sources */,
+				DB30138D197DFA58004498BB /* OrderObject.m in Sources */,
 				3E94697118BA3A6B00F09AA5 /* XMPPMessageArchivingCoreDataStorage.m in Sources */,
 				3E94693518BA3A6B00F09AA5 /* XMPPUserCoreDataStorageObject.m in Sources */,
 				3E70C61E1970BE5B00FA7BF5 /* MenuCategoryCell.m in Sources */,
@@ -2831,6 +2873,7 @@
 				3EA66F9B19009C81005C919E /* ShowWinodwViewController.m in Sources */,
 				3E94691E18BA3A6B00F09AA5 /* XMPPPlainAuthentication.m in Sources */,
 				3EF80B821935C03E006D5154 /* MenuInfoCell.m in Sources */,
+				DB048BD11982A5D0000E6455 /* WebCouponMethods.m in Sources */,
 				3E94697F18BA3A6B00F09AA5 /* XMPPAttentionModule.m in Sources */,
 				3E94695B18BA3A6B00F09AA5 /* XMPPvCardTempTel.m in Sources */,
 				3E94694518BA3A6B00F09AA5 /* XMPPRoomHybrid.xcdatamodeld in Sources */,
@@ -2849,6 +2892,7 @@
 				3E1F853518CDDD360011C3AD /* TalkInputView.m in Sources */,
 				3E94696318BA3A6B00F09AA5 /* NSDate+XMPPDateTimeProfiles.m in Sources */,
 				3EC91D501965276E007390E6 /* SFTextField.m in Sources */,
+				DB30138A197DF991004498BB /* WebOrderMethods.m in Sources */,
 				3E9ACED818AB1EB100A85A18 /* SDWebImageDownloader.m in Sources */,
 				3E9ACEDC18AB1EB100A85A18 /* UIButton+WebCache.m in Sources */,
 				3E4E51521890A1F90059CBD1 /* ASIDownloadCache.m in Sources */,

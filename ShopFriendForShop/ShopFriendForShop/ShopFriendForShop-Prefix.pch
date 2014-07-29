@@ -35,6 +35,7 @@
 #import "ProgressHUD.h"
 #import "CategoryModel.h"
 #import "SFSliderViewController.h"
+#import "ToolMethods.h"
 #endif
 
 #ifdef DEBUG

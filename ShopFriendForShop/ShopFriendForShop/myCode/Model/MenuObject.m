@@ -22,7 +22,7 @@
     };
     [MenuObject checkTableCreatedInDb:db];
     
-    NSString*insertStr=@"INSERT INTO 'SFMenu'('goodID','categoryID','goodName','goodPrice','goodPhotoCount','goodInfo','goodOnSale','goodRank') VALUES (?,?,?,?,?,?,?,?)";
+    NSString*insertStr=@"INSERT INTO 'SFMenu'('good_ID','menu_categoryID','good_name','good_price','good_photo_count','good_info','good_onSale','good_rank') VALUES (?,?,?,?,?,?,?,?)";
     BOOL worked=[db executeUpdate:insertStr,aMenu.goodID,aMenu.categoryID,aMenu.goodName,aMenu.goodPrice,aMenu.goodPhotoCount,aMenu.goodInfo,aMenu.goodOnSale,aMenu.goodRank];
     [db close];
     return  worked;
@@ -35,7 +35,7 @@
         return NO;
     };
     [MenuObject checkTableCreatedInDb:db];
-    FMResultSet*rs=[db executeQuery:@"SELECT COUNT(*) FROM SFMenu WHERE goodID=?",goodID];
+    FMResultSet*rs=[db executeQuery:@"SELECT COUNT(*) FROM SFMenu WHERE good_ID=?",goodID];
     while ([rs next]) {
         int count= [rs intForColumnIndex:0];
         
@@ -48,7 +48,7 @@
             return NO;
         }
         
-    };
+    }
     [rs close];
     return YES;
 }
@@ -60,7 +60,7 @@
         return NO;
     };
     [MenuObject checkTableCreatedInDb:db];
-    NSString*queryStr=@"DELETE FROM SFMenu WHERE goodID=?";
+    NSString*queryStr=@"DELETE FROM SFMenu WHERE good_ID=?";
     BOOL worked=[db executeUpdate:queryStr,goodID];
     [db close];
     return worked;
@@ -73,7 +73,7 @@
         return NO;
     };
     [MenuObject checkTableCreatedInDb:db];
-    BOOL worked=[db executeUpdate:@"UPDATE SFMenu SET goodName=?,goodPrice=?,goodPhotoCount=?,goodInfo=? WHERE goodID=?",newGood.goodName,newGood.goodPrice,newGood.goodPhotoCount,newGood.goodInfo,newGood.goodID];
+    BOOL worked=[db executeUpdate:@"UPDATE SFMenu SET good_name=?,good_price=?,good_photo_count=?,good_info=? WHERE good_ID=?",newGood.goodName,newGood.goodPrice,newGood.goodPhotoCount,newGood.goodInfo,newGood.goodID];
     return worked;
 }
 +(void)updategoodRank:(NSMutableArray *)menuArray
@@ -85,7 +85,7 @@
     [MenuObject checkTableCreatedInDb:db];
     for (int i=0; i<[menuArray count]; i++) {
         NSArray*array=[menuArray objectAtIndex:i];
-        NSString*sql=[NSString stringWithFormat:@"UPDATE SFMenu SET goodRank=? WHERE goodID=?"];
+        NSString*sql=[NSString stringWithFormat:@"UPDATE SFMenu SET good_rank=? WHERE good_ID=?"];
         BOOL worked=[db executeUpdate:sql,[NSNumber numberWithInt:[[array objectAtIndex:1] integerValue]],[array objectAtIndex:0]];
     }
 }
@@ -99,7 +99,7 @@
         return resultArr;
     };
     [MenuObject checkTableCreatedInDb:db];
-    FMResultSet*rs=[db executeQuery:@"SELECT * FROM SFMenu WHERE categoryID=? order by goodRank asc",categoryID];
+    FMResultSet*rs=[db executeQuery:@"SELECT * FROM SFMenu WHERE menu_categoryID=? order by good_rank asc",categoryID];
     while ([rs next]) {
         MenuObject*good=[[MenuObject alloc] init];
         [good setCategoryID:[rs objectForColumnName:sfGoodCategory]];
@@ -136,7 +136,7 @@
 //
 +(BOOL)checkTableCreatedInDb:(FMDatabase*)db
 {
-    NSString *createStr=@"CREATE TABLE IF NOT EXISTS 'SFMenu' ('goodID' INT, 'goodName' VARCHAR PRIMARY KEY,'categoryID' VARCHAR NOT NULL, 'goodPrice' FLOAT ,'goodPhotoCount' INT,'goodInfo' VARCHAR,'goodOnSale' INT,'goodRank' INT)";
+    NSString *createStr=@"CREATE TABLE IF NOT EXISTS 'SFMenu' ('good_ID' INT, 'good_name' VARCHAR PRIMARY KEY,'menu_categoryID' VARCHAR NOT NULL, 'good_price' FLOAT ,'good_photo_count' INT,'good_info' VARCHAR,'good_onSale' INT,'good_rank' INT)";
     
     BOOL worked = [db executeUpdate:createStr];
     FMDBQuickCheck(worked);

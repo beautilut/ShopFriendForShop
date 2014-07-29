@@ -47,19 +47,21 @@ static WebMenuMethods*shareMenu;
         SBJsonParser*parser=[[SBJsonParser alloc] init];
         NSDictionary*dic=[parser objectWithString:request.responseString];
         if ([[dic objectForKey:@"back"] integerValue]==1) {
-            MenuObject*menu=[[MenuObject alloc] init];
-            [menu setGoodID:[dic objectForKey:@"goodID"]];
-            [menu setCategoryID:categoryID];
-            [menu setGoodName:name];
-            [menu setGoodPrice:price];
-            [menu setGoodPhotoCount:count];
-            [menu setGoodInfo:info];
-            [menu setGoodOnSale:[NSNumber numberWithInt:1]];
-            [MenuObject saveNewGood:menu];
-            if ([delegate respondsToSelector:@selector(webMenuInsertSuccess:)]) {
+            if ([[dic objectForKey:@"goodID"] integerValue]!=0) {
+                MenuObject*menu=[[MenuObject alloc] init];
+                [menu setGoodID:[dic objectForKey:@"goodID"]];
+                [menu setCategoryID:categoryID];
+                [menu setGoodName:name];
+                [menu setGoodPrice:price];
+                [menu setGoodPhotoCount:count];
+                [menu setGoodInfo:info];
+                [menu setGoodOnSale:[NSNumber numberWithInt:1]];
+                [MenuObject saveNewGood:menu];
+                if ([delegate respondsToSelector:@selector(webMenuInsertSuccess:)]) {
+                    [delegate webMenuInsertSuccess];
+                }
                 [delegate webMenuInsertSuccess];
             }
-            [delegate webMenuInsertSuccess];
         }
     }];
     [request setFailedBlock:^{

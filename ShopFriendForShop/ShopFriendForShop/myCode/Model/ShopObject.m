@@ -19,7 +19,7 @@
         return NO;
     };
     [ShopObject checkTableCreatedInDb:db];
-    NSString*insertStr=@"INSERT INTO 'SFShop' ('shopID','shopName','shopCategory','shopCategoryWord','shopCategoryDetail','shopAddress','shopTel','shopOpenTime') VALUES(?,?,?,?,?,?,?,?)";
+    NSString*insertStr=@"INSERT INTO 'SFShop' ('shop_ID','shop_name','shop_category','shopCategoryWord','shop_category_detail','shop_address','shop_tel','shop_opening_time') VALUES(?,?,?,?,?,?,?,?)";
     BOOL worked=[db executeUpdate:insertStr,aShop.shopID,aShop.shopName,aShop.shopCategory,aShop.shopCategoryWord,aShop.shopCategoryDetail,aShop.shopAddress,aShop.shopTel,@"0"];
 
     [db close];
@@ -33,7 +33,7 @@
         return NO;
     };
     [ShopObject checkTableCreatedInDb:db];
-    FMResultSet*rs=[db executeQuery:@"SELECT COUNT(*) FROM SFShop WHERE shopID=?",shopID];
+    FMResultSet*rs=[db executeQuery:@"SELECT COUNT(*) FROM SFShop WHERE shop_ID=?",shopID];
     while ([rs next]) {
         int count= [rs intForColumnIndex:0];
         
@@ -62,7 +62,7 @@
         return NO;
     };
     [ShopObject checkTableCreatedInDb:db];
-    NSString*string=[NSString stringWithFormat:@"UPDATE SFShop SET %@ = ? WHERE shopID=?",column];
+    NSString*string=[NSString stringWithFormat:@"UPDATE SFShop SET %@ = ? WHERE shop_ID=?",column];
     NSString*hostID=[[NSUserDefaults standardUserDefaults]objectForKey:kXMPPmyJID];
     BOOL worked=[db executeUpdate:string,data,hostID];
     return worked;
@@ -77,7 +77,7 @@
     };
     [ShopObject checkTableCreatedInDb:db];
     NSString*shopID=[[NSUserDefaults standardUserDefaults]objectForKey:kXMPPmyJID];
-    FMResultSet*rs=[db executeQuery:@"SELECT * FROM SFShop WHERE shopID=?",shopID];
+    FMResultSet*rs=[db executeQuery:@"SELECT * FROM SFShop WHERE shop_ID=?",shopID];
     while ([rs next]) {
         [shop setShopID:[rs objectForColumnName:sfShopID]];
         [shop setShopName:[rs objectForColumnName:sfShopName]];
@@ -110,7 +110,7 @@
 }
 +(BOOL)checkTableCreatedInDb:(FMDatabase*)db
 {
-    NSString *createStr=@"CREATE TABLE IF NOT EXISTS 'SFShop' ('shopID' VARCHAR PRIMARY KEY NOT NULL UNIQUE,'shopName' VARCHAR,'shopCategory' VARCHAR,'shopCategoryWord' VARCHAR,'shopCategoryDetail' VARCHAR,'shopAddress' VARCHAR,'shopTel' VARCHAR,'shopOpenTime' VARCHAR)";
+    NSString *createStr=@"CREATE TABLE IF NOT EXISTS 'SFShop' ('shop_ID' VARCHAR PRIMARY KEY NOT NULL UNIQUE,'shop_name' VARCHAR,'shop_category' VARCHAR,'shopCategoryWord' VARCHAR,'shop_category_detail' VARCHAR,'shop_address' VARCHAR,'shop_tel' VARCHAR,'shop_opening_time' VARCHAR)";
     
     BOOL worked = [db executeUpdate:createStr];
     FMDBQuickCheck(worked);

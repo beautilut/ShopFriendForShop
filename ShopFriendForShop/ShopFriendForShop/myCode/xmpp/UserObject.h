@@ -7,8 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#define kUSER_ID @"userId"
-#define kUSER_NICKNAME @"nickName"
+#define kUSER_ID @"user_ID"
+#define kUSER_NICKNAME @"user_name"
 //#define kUSER_USERHEAD @"userHead"
 #define kUSER_FRIEND_FLAG @"friendFlag"
 @interface UserObject : NSObject

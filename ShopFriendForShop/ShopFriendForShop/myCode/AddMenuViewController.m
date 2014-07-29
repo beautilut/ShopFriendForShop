@@ -31,7 +31,7 @@
     TextFieldCell*nameCell;
     TSCurrencyTextField*priceField;
     
-    UIImage*logoImage;
+    //UIImage*logoImage;
     UIButton*menuLogo;
     UIButton*moveAdd;
     NSMutableArray*imageButtonArray;
@@ -91,7 +91,7 @@
     imageScroll=[[UIScrollView alloc] initWithFrame:backView.frame];
     [imageScroll setBackgroundColor:[UIColor clearColor]];
     [menuBackScrol addSubview:imageScroll];
-    imageButtonArray =[[NSMutableArray alloc] initWithCapacity:4];
+    imageButtonArray =[[NSMutableArray alloc] initWithCapacity:5];
     [self ImageButtonInit];
 //    UIButton*finishButton=[[UIButton alloc] initWithFrame:CGRectMake(10,300, self.view.frame.size.width-20, 40)];
 //    [finishButton setBackgroundColor:[UIColor orangeColor]];
@@ -127,35 +127,26 @@
 {
     imageArray=[[NSMutableArray alloc] init];
     SDWebImageManager*manager=[[SDWebImageManager alloc] init];
-    menuLogo=[[UIButton alloc] initWithFrame:CGRectMake(10, 5, 52, 52)];
-    [menuLogo addTarget:self action:@selector(logoChange:) forControlEvents:UIControlEventTouchDown];
-    menuLogo.layer.borderWidth=2;
-    menuLogo.layer.borderColor=[UIColor yellowColor].CGColor;
-    [imageScroll addSubview:menuLogo];
+//    menuLogo=[[UIButton alloc] initWithFrame:CGRectMake(10, 5, 52, 52)];
+//    [menuLogo addTarget:self action:@selector(logoChange:) forControlEvents:UIControlEventTouchDown];
+//    menuLogo.layer.borderWidth=2;
+//    menuLogo.layer.borderColor=[UIColor yellowColor].CGColor;
+//    [imageScroll addSubview:menuLogo];
     
-    moveAdd=[[UIButton alloc] initWithFrame:CGRectMake(72, 5, 52, 52)];
+    moveAdd=[[UIButton alloc] initWithFrame:CGRectMake(20, 5, 52, 52)];
     [moveAdd addTarget:self action:@selector(imagePick:) forControlEvents:UIControlEventTouchDown];
     moveAdd.layer.borderColor=[UIColor whiteColor].CGColor;
     moveAdd.layer.borderWidth=2;
     [imageScroll addSubview:moveAdd];
     
-    logoImage=[UIImage imageNamed:@"ImageBack.png"];
     for (int i=0; i<[infoMenu.goodPhotoCount intValue]; i++) {
-        //NSString*md5=[infoMenu.goodMD5 lowercaseString];
-        //NSString*imageName=[NSString stringWithFormat:@"%@%d",md5,i];
         NSString*localImage=[NSString stringWithFormat:@"%@%@/menu/%@/%@.jpg",menuImageURL,shopID,categoryID,infoMenu.goodID];
         [manager downloadWithURL:[NSURL URLWithString:localImage] options:0 progress:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished)
          {
-             if (i==0) {
-                 logoImage=image;
-                 [menuLogo setImage:logoImage forState:UIControlStateNormal];
-             }else
-             {
-                 if (image!=nil) {
+                if (image!=nil) {
                      [imageArray addObject:image];
                  }
                  [self imageButtonGetImage];
-             }
          }];
     }
 }
@@ -166,7 +157,7 @@
     }
     [imageButtonArray removeAllObjects];
     for (int i=0; i<[imageArray count]; i++) {
-        UIButton*imageButton=[[UIButton alloc] initWithFrame:CGRectMake(72+62*i, 5, 52, 52)];
+        UIButton*imageButton=[[UIButton alloc] initWithFrame:CGRectMake(20+62*i, 5, 52, 52)];
         [imageButton setImage:[imageArray objectAtIndex:i] forState:UIControlStateNormal];
         [imageButton addTarget:self action:@selector(changeImage:) forControlEvents:UIControlEventTouchDown];
         [imageButton setTag:i];
@@ -176,7 +167,7 @@
     [UIView beginAnimations:@"animation" context:nil];
     [UIView setAnimationDuration:0.2f];
     [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
-    [moveAdd setFrame:CGRectMake(72+62*imageArray.count, 5, 52, 52)];
+    [moveAdd setFrame:CGRectMake(20+62*imageArray.count, 5, 52, 52)];
     [UIView commitAnimations];
 }
 -(void)changeImage:(id)sender
@@ -216,9 +207,9 @@
         UIAlertView*alter=[[UIAlertView alloc] initWithTitle:@"错误" message:@"请填写完整,价格大于0.5" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
         [alter show];
         [button setEnabled:YES];
+        return;
     }
     NSMutableArray*postImageArray=[[NSMutableArray alloc] initWithCapacity:5];
-    [postImageArray addObject:logoImage];
     [postImageArray addObjectsFromArray:imageArray];
     [menuDic setObject:postImageArray forKey:@"goodPhoto"];
     if (infoMenu.goodID==nil) {
@@ -238,6 +229,7 @@
 -(void)webMenuInsertFail
 {
     UIAlertView*alter=[[UIAlertView alloc] initWithTitle:nil message:@"菜单插入失败" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+    [alter show ];
 }
 -(void)webMenuChangeSuccess
 {
@@ -554,11 +546,7 @@
 #pragma mark VPImageCropperDelegate
 - (void)imageCropper:(VPImageCropperViewController *)cropperViewController didFinished:(UIImage *)editedImage {
     
-    if (logoChange==YES) {
-        [menuLogo setImage:editedImage forState:UIControlStateNormal];
-        logoImage=editedImage;
-        logoChange=NO;
-    }else if (imageAdd==YES) {
+    if(imageAdd==YES) {
         [imageArray addObject:editedImage];
         [self imageButtonGetImage];
         imageAdd=NO;

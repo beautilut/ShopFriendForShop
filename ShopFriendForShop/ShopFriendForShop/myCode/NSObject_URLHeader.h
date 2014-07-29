@@ -45,3 +45,11 @@
 #define GetShopWindowImage @"http://www.beautilut.com/shopFriend/shopMethod/shopWindowImage.php"//1
 #define SHOP_MENU_PICK(_PICK_) [NSString stringWithFormat:@"http://www.beautilut.com/shopFriendDatabase/shopDatabase/%@",_PICK_]//1
 
+//Order
+#define insertOrderURL @""
+#define updateOrderURL @""
+
+//coupon
+#define couponModelInsertURL @""
+#define couponModelChangeURL @""
+#define sendCouponURL @""

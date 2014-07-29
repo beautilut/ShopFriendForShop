@@ -25,7 +25,7 @@
     
     
     
-    NSString *insertStr=@"INSERT INTO 'SFUser' ('userId','nickName','friendFlag') VALUES (?,?,?)";
+    NSString *insertStr=@"INSERT INTO 'SFUser' ('user_ID','user_name','friendFlag') VALUES (?,?,?)";
     BOOL worked = [db executeUpdate:insertStr,aUser.userId,aUser.userNickname,[NSNumber numberWithInt:0]];
     // FMDBQuickCheck(worked);
     
@@ -46,7 +46,7 @@
     };
     [UserObject checkTableCreatedInDb:db];
     
-    FMResultSet *rs=[db executeQuery:@"select count(*) from SFUser where userId=?",userId];
+    FMResultSet *rs=[db executeQuery:@"select count(*) from SFUser where user_ID=?",userId];
     while ([rs next]) {
         int count= [rs intForColumnIndex:0];
         
@@ -78,7 +78,7 @@
         return NO;
     };
     [UserObject checkTableCreatedInDb:db];
-    BOOL worked=[db executeUpdate:@"update SFUser set friendFlag=1 where userId=?",newUser.userId];
+    BOOL worked=[db executeUpdate:@"update SFUser set friendFlag=1 where user_ID=?",newUser.userId];
     
     return worked;
     
@@ -129,7 +129,7 @@
 
 +(BOOL)checkTableCreatedInDb:(FMDatabase *)db
 {
-    NSString *createStr=@"CREATE  TABLE  IF NOT EXISTS 'SFUser' ('userId' VARCHAR PRIMARY KEY  NOT NULL  UNIQUE , 'nickName' VARCHAR,'friendFlag' INT)";
+    NSString *createStr=@"CREATE  TABLE  IF NOT EXISTS 'SFUser' ('user_ID' VARCHAR PRIMARY KEY  NOT NULL  UNIQUE , 'user_name' VARCHAR,'friendFlag' INT)";
     
     BOOL worked = [db executeUpdate:createStr];
     FMDBQuickCheck(worked);

@@ -235,7 +235,7 @@
                     NSMutableArray*array=[[NSMutableArray alloc] initWithObjects:model.categoryID,[NSNumber numberWithInt:i],nil];
                     [postArray addObject:array];
                 }
-                NSString*string=[self JSONString:postArray];
+                NSString*string=[[ToolMethods sharedMethods] JSONString:postArray];
                 [request setPostValue:string forKey:@"array"];
                 [request setCompletionBlock:^{
                     SBJsonParser*parser=[[SBJsonParser alloc] init];
@@ -262,14 +262,5 @@
 -(BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return YES;
-}
--(NSString*)JSONString:(id)data;
-{
-    NSError* error = nil;
-    id result = [NSJSONSerialization dataWithJSONObject:data options:kNilOptions
-                                                  error:&error];
-    if (error != nil) return nil;
-    NSString*string=[[NSString alloc] initWithData:result encoding:NSASCIIStringEncoding];
-    return string;
 }
 @end

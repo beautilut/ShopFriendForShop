@@ -20,7 +20,7 @@
     };
     [CategoryModel checkTableCreatedInDb:db];
     
-    NSString*insertStr=@"INSERT INTO 'SFCategory' ('categoryID','shopID','categoryName','categoryRank') VALUES(?,?,?,?)";
+    NSString*insertStr=@"INSERT INTO 'SFCategory' ('menu_categoryID','shop_ID','menu_category','menu_rank') VALUES(?,?,?,?)";
     BOOL worked=[db executeUpdate:insertStr,aCategory.categoryID,aCategory.shopID,aCategory.categoryName,aCategory.categoryRank];
     [db close];
     return worked;
@@ -33,7 +33,7 @@
         return YES;
     };
     [CategoryModel checkTableCreatedInDb:db];
-    FMResultSet*rs=[db executeQuery:@"SELECT COUNT(*) FROM SFCategory WHERE categoryID=?",categoryID];
+    FMResultSet*rs=[db executeQuery:@"SELECT COUNT(*) FROM SFCategory WHERE menu_categoryID=?",categoryID];
     while ([rs next]) {
         int count= [rs intForColumnIndex:0];
         
@@ -58,7 +58,7 @@
         return YES;
     };
     [CategoryModel checkTableCreatedInDb:db];
-    BOOL worked=[db executeUpdate:@"DELETE FROM SFCategory WHERE categoryID=?",categoryID];
+    BOOL worked=[db executeUpdate:@"DELETE FROM SFCategory WHERE menu_categoryID=?",categoryID];
     return worked;
 }
 +(BOOL)updateCategory:(CategoryModel *)newCategory
@@ -69,7 +69,7 @@
         return YES;
     };
     [CategoryModel checkTableCreatedInDb:db];
-    BOOL worked=[db executeUpdate:@"update SFCategory set categoryName=? where categoryID=?",newCategory.categoryName,newCategory.categoryID];
+    BOOL worked=[db executeUpdate:@"update SFCategory set menu_category=? where menu_categoryID=?",newCategory.categoryName,newCategory.categoryID];
     return worked;
 }
 +(void)updateCategoryRank:(NSMutableArray *)categoryArray
@@ -81,7 +81,7 @@
     [CategoryModel checkTableCreatedInDb:db];
     for (int i=0; i<[categoryArray count]; i++) {
         NSArray*array=[categoryArray objectAtIndex:i];
-        NSString*sql=[NSString stringWithFormat:@"update SFCategory set categoryRank=%@ where categoryID=%@",[array objectAtIndex:1],[array objectAtIndex:0]];
+        NSString*sql=[NSString stringWithFormat:@"update SFCategory set menu_rank=%@ where menu_cateogoryID=%@",[array objectAtIndex:1],[array objectAtIndex:0]];
         BOOL worked=[db executeUpdate:sql];
     }
 }
@@ -95,7 +95,7 @@
     };
     [CategoryModel checkTableCreatedInDb:db];
     NSString*shopID=[[NSUserDefaults standardUserDefaults]objectForKey:kXMPPmyJID];
-    FMResultSet*rs=[db executeQuery:@"SELECT * FROM SFCategory WHERE shopID=? order by categoryRank asc",shopID];
+    FMResultSet*rs=[db executeQuery:@"SELECT * FROM SFCategory WHERE shop_ID=? order by menu_rank asc",shopID];
     while ([rs next]) {
         CategoryModel*category=[[CategoryModel alloc] init];
         category.categoryID=[rs stringForColumn:sfCategoryID];
@@ -122,7 +122,7 @@
 }
 +(BOOL)checkTableCreatedInDb:(FMDatabase*)db
 {
-    NSString*createStr=@"CREATE TABLE IF NOT EXISTS 'SFCategory' ('categoryID' VARCHAR PRIMARY KEY NOT NULL UNIQUE,'shopID' VARCHAR ,'categoryName' VARCHAR,'categoryRank' INT)";
+    NSString*createStr=@"CREATE TABLE IF NOT EXISTS 'SFCategory' ('menu_categoryID' VARCHAR PRIMARY KEY NOT NULL UNIQUE,'shop_ID' VARCHAR ,'menu_category' VARCHAR,'menu_rank' INT)";
     BOOL worked=[db executeUpdate:createStr];
     FMDBQuickCheck(worked);
     return worked;

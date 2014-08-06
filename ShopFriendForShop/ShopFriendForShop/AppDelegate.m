@@ -8,6 +8,7 @@
 
 #import "AppDelegate.h"
 #import "NSObject_URLHeader.h"
+#import "PushHandleMethods.h"
 #import "DDLog.h"
 #import "DDTTYLogger.h"
 @implementation AppDelegate
@@ -94,8 +95,11 @@ BMKMapManager* _mapManager;
     NSLog(@"%@",deviceToken);
     
 }
+//push 消息处理类
 -(void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
 {
     NSLog(@"%@",userInfo);
+    NSDictionary*dic=[userInfo objectForKey:@"aps"];
+    [[PushHandleMethods shared] handleWithAPI:[dic objectForKey:@"api"] with:[dic objectForKey:@"data"]];
 }
 @end

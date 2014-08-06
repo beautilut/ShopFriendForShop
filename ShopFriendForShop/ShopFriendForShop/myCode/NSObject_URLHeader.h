@@ -48,7 +48,7 @@
 //Order
 #define insertOrderURL @""
 #define updateOrderURL @""
-
+#define getOrderURL @"http://115.28.89.105/shopFriend/OrderMethods/getOrder.php"
 //coupon
 #define couponModelInsertURL @""
 #define couponModelChangeURL @""

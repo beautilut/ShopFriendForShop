@@ -7,6 +7,8 @@
 //
 
 #import "WebOrderMethods.h"
+#import "FMDatabase.h"
+#import "FMResultSet.h"
 static WebOrderMethods *shareOrder;
 @implementation WebOrderMethods
 @synthesize delegate;
@@ -18,6 +20,7 @@ static WebOrderMethods *shareOrder;
     });
     return shareOrder;
 }
+//not use
 -(void)webOrderInsert:(NSDictionary *)dic
 {
     //data
@@ -42,6 +45,9 @@ static WebOrderMethods *shareOrder;
     }];
     [request setFailedBlock:^{
         //待
+        if ([delegate respondsToSelector:@selector(webOrderInsertSuccess)]) {
+            [delegate webOrderInsertFail];
+        }
     }];
     [request startAsynchronous];
 }
@@ -59,11 +65,41 @@ static WebOrderMethods *shareOrder;
     [request setPostValue:orderID forKey:sfOrderID];
     [request setCompletionBlock:^{
         //待
+        if ([delegate respondsToSelector:@selector(webOrderUpdateSuccess)]) {
+            [delegate webOrderInsertSuccess];
+        }
     }];
     [request setFailedBlock:^{
         //待
+        if ([delegate respondsToSelector:@selector(webOrderUpdateFail)]) {
+            [delegate webOrderInsertFail];
+        }
     }];
     [request startAsynchronous];
 }
-
+-(void)getNewOrder:(NSString*)orderID
+{
+    NSURL*url=[NSURL URLWithString:getOrderURL];
+    ASIFormDataRequest*request=[ASIFormDataRequest requestWithURL:url];
+    [request setPostValue:orderID forKey:@"order_ID"];
+    [request setCompletionBlock:^{
+        //
+        SBJsonParser*parser=[[SBJsonParser alloc] init];
+        NSDictionary*dic=[parser objectWithString:request.responseString];
+        if ([[dic objectForKey:@"back"] integerValue]==1) {
+            NSLog(@"%@",[dic objectForKey:@"order"]);
+            
+        }
+        if ([delegate respondsToSelector:@selector(webOrderGetSuccess)]) {
+            [delegate webOrderGetSuccess];
+        }
+    }];
+    [request setFailedBlock:^{
+        //
+        if ([delegate respondsToSelector:@selector(webOrderGetFail)]) {
+            [delegate webOrderGetFail];
+        }
+    }];
+    [request startAsynchronous];
+}
 @end

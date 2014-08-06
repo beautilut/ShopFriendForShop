@@ -18,12 +18,17 @@
 +(WebOrderMethods*)sharedOrder;
 -(void)webOrderInsert:(NSDictionary*)dic;
 -(void)webOrderUpdate:(NSDictionary*)dic;
+-(void)getNewOrder:(NSString*)orderID;
 @end
 @protocol WebOrderMethodsDelegate  <NSObject>
+
 //webOrderInsert
 -(void)webOrderInsertSuccess;
 -(void)webOrderInsertFail;
 //webOrderUpdate
 -(void)webOrderUpdateSuccess;
 -(void)webOrderUpdateFail;
+//webOrderGet
+-(void)webOrderGetSuccess;
+-(void)webOrderGetFail;
 @end

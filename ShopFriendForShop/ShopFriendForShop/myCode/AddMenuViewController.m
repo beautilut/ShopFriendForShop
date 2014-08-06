@@ -140,7 +140,7 @@
     [imageScroll addSubview:moveAdd];
     
     for (int i=0; i<[infoMenu.goodPhotoCount intValue]; i++) {
-        NSString*localImage=[NSString stringWithFormat:@"%@%@/menu/%@/%@.jpg",menuImageURL,shopID,categoryID,infoMenu.goodID];
+        NSString*localImage=[NSString stringWithFormat:@"%@%@/menu/%@/%@%d.jpg",menuImageURL,shopID,categoryID,infoMenu.goodID,i];
         [manager downloadWithURL:[NSURL URLWithString:localImage] options:0 progress:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished)
          {
                 if (image!=nil) {

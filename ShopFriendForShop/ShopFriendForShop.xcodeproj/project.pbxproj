@@ -328,6 +328,9 @@
 		DB30138A197DF991004498BB /* WebOrderMethods.m in Sources */ = {isa = PBXBuildFile; fileRef = DB301389197DF991004498BB /* WebOrderMethods.m */; };
 		DB30138D197DFA58004498BB /* OrderObject.m in Sources */ = {isa = PBXBuildFile; fileRef = DB30138C197DFA58004498BB /* OrderObject.m */; };
 		DB301391197E89E5004498BB /* OrderDetailObject.m in Sources */ = {isa = PBXBuildFile; fileRef = DB301390197E89E5004498BB /* OrderDetailObject.m */; };
+		DB703C5D1989DF880034258F /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = DB703C5B1989DF880034258F /* logo.png */; };
+		DB703C5E1989DF880034258F /* logo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DB703C5C1989DF880034258F /* logo@2x.png */; };
+		DB703C68199119E50034258F /* PushHandleMethods.m in Sources */ = {isa = PBXBuildFile; fileRef = DB703C67199119E50034258F /* PushHandleMethods.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -962,6 +965,10 @@
 		DB30138C197DFA58004498BB /* OrderObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OrderObject.m; path = myCode/Model/OrderObject.m; sourceTree = "<group>"; };
 		DB30138F197E89E5004498BB /* OrderDetailObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OrderDetailObject.h; path = myCode/Model/OrderDetailObject.h; sourceTree = "<group>"; };
 		DB301390197E89E5004498BB /* OrderDetailObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OrderDetailObject.m; path = myCode/Model/OrderDetailObject.m; sourceTree = "<group>"; };
+		DB703C5B1989DF880034258F /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = logo.png; path = "shopFriendImage/logo Launch/logo.png"; sourceTree = "<group>"; };
+		DB703C5C1989DF880034258F /* logo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "logo@2x.png"; path = "shopFriendImage/logo Launch/logo@2x.png"; sourceTree = "<group>"; };
+		DB703C66199119E50034258F /* PushHandleMethods.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PushHandleMethods.h; path = myCode/PushHandleMethods.h; sourceTree = "<group>"; };
+		DB703C67199119E50034258F /* PushHandleMethods.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PushHandleMethods.m; path = myCode/PushHandleMethods.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1005,6 +1012,8 @@
 		3E17C8A11890FD4500339EB7 /* image */ = {
 			isa = PBXGroup;
 			children = (
+				DB703C5B1989DF880034258F /* logo.png */,
+				DB703C5C1989DF880034258F /* logo@2x.png */,
 				3E17C8A7189165E600339EB7 /* ImageBack.png */,
 			);
 			name = image;
@@ -1309,12 +1318,7 @@
 				3E8A9C1418FDF43100415372 /* shopFriendImage */,
 				3E4E50CE1890A1670059CBD1 /* AppDelegate.h */,
 				3E4E50CF1890A1670059CBD1 /* AppDelegate.m */,
-				DB048BCC1981F04B000E6455 /* ToolMethods.h */,
-				DB048BCD1981F04B000E6455 /* ToolMethods.m */,
-				3E552C2418D1D101004E5A0C /* InfoManager.h */,
-				3E552C2518D1D101004E5A0C /* InfoManager.m */,
-				3E1F84E918CDCBFB0011C3AD /* SFXMPPManager.h */,
-				3E1F84EA18CDCBFB0011C3AD /* SFXMPPManager.m */,
+				DB703C65199119B40034258F /* MainMethods */,
 				3E4E50D11890A1670059CBD1 /* Main.storyboard */,
 				3E17C8AE1893F76200339EB7 /* NSObject_URLHeader.h */,
 				3E4E50DA1890A1670059CBD1 /* Images.xcassets */,
@@ -1328,7 +1332,6 @@
 			isa = PBXGroup;
 			children = (
 				3E4E50C71890A1670059CBD1 /* ShopFriendForShop-Info.plist */,
-				3E4E50C81890A1670059CBD1 /* InfoPlist.strings */,
 				3E4E50CB1890A1670059CBD1 /* main.m */,
 				3E4E50CD1890A1670059CBD1 /* ShopFriendForShop-Prefix.pch */,
 			);
@@ -2532,6 +2535,22 @@
 			name = "New Group";
 			sourceTree = "<group>";
 		};
+		DB703C65199119B40034258F /* MainMethods */ = {
+			isa = PBXGroup;
+			children = (
+				DB048BCC1981F04B000E6455 /* ToolMethods.h */,
+				DB048BCD1981F04B000E6455 /* ToolMethods.m */,
+				3E552C2418D1D101004E5A0C /* InfoManager.h */,
+				3E552C2518D1D101004E5A0C /* InfoManager.m */,
+				3E1F84E918CDCBFB0011C3AD /* SFXMPPManager.h */,
+				3E1F84EA18CDCBFB0011C3AD /* SFXMPPManager.m */,
+				DB703C66199119E50034258F /* PushHandleMethods.h */,
+				DB703C67199119E50034258F /* PushHandleMethods.m */,
+				3E4E50C81890A1670059CBD1 /* InfoPlist.strings */,
+			);
+			name = MainMethods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -2613,8 +2632,10 @@
 			files = (
 				3E8A9C6318FDF43100415372 /* list.png in Resources */,
 				3E8A9C4618FDF43100415372 /* me_selected.png in Resources */,
+				DB703C5D1989DF880034258F /* logo.png in Resources */,
 				3E1F853E18CDE1100011C3AD /* SenderTextNodeBkgHL@2x.png in Resources */,
 				3E8A9C5618FDF43100415372 /* next.png in Resources */,
+				DB703C5E1989DF880034258F /* logo@2x.png in Resources */,
 				3E4E50DB1890A1670059CBD1 /* Images.xcassets in Resources */,
 				3E45B9F41907FCFF0037B2B4 /* FansCell.xib in Resources */,
 				3E70C6221970BE5B00FA7BF5 /* MenuCell.xib in Resources */,
@@ -2703,6 +2724,7 @@
 				3E94695618BA3A6B00F09AA5 /* XMPPvCardTempAdrTypes.m in Sources */,
 				3E94698218BA3A6B00F09AA5 /* XMPPMessage+XEP_0308.m in Sources */,
 				3EB0FD1518FF71C500DB09E0 /* FeedBackViewController.m in Sources */,
+				DB703C68199119E50034258F /* PushHandleMethods.m in Sources */,
 				3E94698418BA3A6B00F09AA5 /* NSXMLElement+XEP_0335.m in Sources */,
 				3E94697918BA3A6B00F09AA5 /* XMPPAutoPing.m in Sources */,
 				3EB0FD1818FF727800DB09E0 /* PasswordChangeViewController.m in Sources */,

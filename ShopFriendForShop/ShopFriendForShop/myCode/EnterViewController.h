@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 #import "ASIFormDataRequest.h"
-@interface EnterViewController : UIViewController<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate>
+@interface EnterViewController : UIViewController<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate,WebShopMethodsDelegate>
 
 @end

@@ -10,6 +10,7 @@
 #import "SFMessageCell.h"
 #import "TalkInputView.h"
 #import "SFNaviBar.h"
+#import "TalkSetting.h"
 #define INPUT_HEIGHT 40.0f
 @interface SFTalkViewController ()
 {
@@ -44,7 +45,14 @@
     [backbutton setTitleColor:[UIColor colorWithRed:25.0/255.0 green:173.0/255.0 blue:220.0/255.0 alpha:1.0f] forState:UIControlStateNormal];
     [navi addSubview:backbutton];
 
-
+    UIButton*buttonRight=[[UIButton alloc] initWithFrame:CGRectMake(navi.frame.size.width-65, 24, 60, 40)];
+    [buttonRight addTarget:self action:@selector(setting:) forControlEvents:UIControlEventTouchDown];
+    [buttonRight.titleLabel setTextAlignment:NSTextAlignmentRight];
+    [buttonRight setTitle:@"设置" forState:UIControlStateNormal];
+    [buttonRight setTitleColor:[UIColor colorWithRed:25.0/255.0 green:173.0/255.0 blue:220.0/255.0 alpha:1.0f] forState:UIControlStateNormal];
+    [navi addSubview:buttonRight];
+   
+    
     //self.navigationItem.title=_chatShop.shopName;
     //ui
     messageTable=[[UITableView alloc] initWithFrame:CGRectMake(0, navi.frame.size.height, screenBounds.size.width, screenBounds.size.height-40-navi.frame.size.height)];
@@ -75,12 +83,20 @@
     inputView=[[TalkInputView alloc] initWithFrame:CGRectMake(0, screenBounds.size.height-40, screenBounds.size.width,40) withDelegate:self];
     [inputView setDelegate:self];
     [self.view addSubview:inputView];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reFresh) name:@"deleteMessage" object:nil];
     [self.view bringSubviewToFront:navi];
 	// Do any additional setup after loading the view.
 }
 -(void)popViewController:(id)sender
 {
     [self.navigationController popViewControllerAnimated:YES];
+}
+-(void)setting:(id)sener
+{
+    UIStoryboard* mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    TalkSetting*shopSetting=[mainStoryboard instantiateViewControllerWithIdentifier:@"SFTalkSetting"];
+    [shopSetting setUser:_chatPerson.userId];
+    [self.navigationController pushViewController:shopSetting animated:YES];
 }
 - (void)didReceiveMemoryWarning
 {

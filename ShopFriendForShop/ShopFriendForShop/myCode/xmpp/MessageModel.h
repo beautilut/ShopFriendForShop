@@ -8,12 +8,6 @@
 
 #import <Foundation/Foundation.h>
 
-#define kMESSAGE_TYPE @"messageType"
-#define kMESSAGE_FROM @"messageFrom"
-#define kMESSAGE_TO @"messageTo"
-#define kMESSAGE_CONTENT @"messageContent"
-#define kMESSAGE_DATE @"messageDate"
-#define kMESSAGE_ID @"messageId"
 
 enum bSFMessageType {
     bSFMessageTypePlain = 0,
@@ -43,6 +37,7 @@ enum bSFMessageCellStyle {
 +(BOOL)save:(MessageModel*)aMessage;
 +(BOOL)deleteMessageById:(NSNumber*)aMessageId;
 +(BOOL)merge:(MessageModel*)aMessage;
++(BOOL)cleanMessage:(NSString*)userId;
 //获取某联系人聊天记录
 +(NSMutableArray*)fetchMessageListWithUser:(NSString*)userId byPage:(int)pageIndex;
 //获取最近联系人

@@ -49,6 +49,7 @@
     [leftButton setTitleColor:[UIColor colorWithRed:25.0/255.0 green:173.0/255.0 blue:220.0/255.0 alpha:1.0f] forState:UIControlStateNormal];
     [navi addSubview:leftButton];
     
+    [self.view setBackgroundColor:[UIColor colorWithRed:0.94 green:0.94 blue:0.96 alpha:1.0]];
     feedBackTextView=[[UITextView alloc] initWithFrame:CGRectMake(10,naviHight+10,screenBounds.size.width-20,200)];
     feedBackTextView.layer.borderWidth=1.0f;
     feedBackTextView.layer.borderColor=[UIColor blackColor].CGColor;

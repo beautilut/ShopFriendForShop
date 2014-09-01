@@ -83,50 +83,32 @@
 }
 -(void)enter:(id)sender
 {
+    [self done:nil];
     if (shopID.textField.text.length==0||shopPassword.textField.text.length==0) {
         UIAlertView*alter=[[UIAlertView alloc] initWithTitle:@"错误" message:@"请填写完账号密码" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
         [alter show];
         return;
     }else
     {
-        NSURL*url=[NSURL URLWithString:enterURL];
-        ASIFormDataRequest*request=[ASIFormDataRequest requestWithURL:url];
-        [request setPostValue:shopID.textField.text forKey:@"shopID"];
-        [request setPostValue:shopPassword.textField.text forKey:@"shopPassword"];
-        [request setCompletionBlock:^{
-            SBJsonParser*parser=[[SBJsonParser alloc] init];
-            NSDictionary*dic=[parser objectWithString:request.responseString];
-            if ([[dic objectForKey:@"back"] integerValue]==1) {
-                //NSString*string=[NSString stringWithFormat:@"",shopID.textField.text];
-                [[NSUserDefaults standardUserDefaults] setObject:shopID.textField.text forKey:kXMPPmyJID];
-                [[NSUserDefaults standardUserDefaults] setObject:shopPassword.textField.text forKey:kXMPPmyPassword];
-                [[SFXMPPManager sharedInstance] connect];
-                [self dismissViewControllerAnimated:YES completion:nil];
-                [[InfoManager sharedInfo] getShopInfo];
-                UIImage*image=[[InfoManager sharedInfo] getShopLogo];
-                if (image==nil) {
-                    SDWebImageManager *manager = [SDWebImageManager sharedManager];
-                    NSURL*url=[NSURL URLWithString:SHOP_LOGO(shopID.textField.text)];
-                    [manager downloadWithURL:url options:0 progress:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished)
-                     {
-                         //[[SDImageCache sharedImageCache] storeImage:image forKey:shopLogoKey toDisk:YES];
-                         [[InfoManager sharedInfo] saveUserImage:image];
-                         [[NSNotificationCenter defaultCenter] postNotificationName:@"logoGet" object:nil];
-                     }];
-                }
-                NSLog(@"yes");
-            }else{
-                UIAlertView*alter=[[UIAlertView alloc] initWithTitle:@"错误" message:@"账号密码错误" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
-                [alter show];
-            }
-
-        }];
-        [request setFailedBlock:^{
-            UIAlertView*alter=[[UIAlertView alloc] initWithTitle:@"错误" message:@"登录失败" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
-            [alter show];
-        }];
-        [request startAsynchronous];
+        NSDictionary*dic=[NSDictionary dictionaryWithObjectsAndKeys:shopID.textField.text,@"shopID",shopPassword.textField.text,@"password",nil];
+        [[WebShopMethods share] setDelegate:self];
+        [[WebShopMethods share] enter:dic];
     }
+}
+#pragma mark enterDelegate
+-(void)enterSuccess
+{
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+-(void)enterPasswordError
+{
+    UIAlertView*alter=[[UIAlertView alloc] initWithTitle:@"错误" message:@"账号密码错误" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+                [alter show];
+}
+-(void)enterFail
+{
+    UIAlertView*alter=[[UIAlertView alloc] initWithTitle:@"错误" message:@"登录失败" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+           [alter show];
 }
 - (void)didReceiveMemoryWarning
 {

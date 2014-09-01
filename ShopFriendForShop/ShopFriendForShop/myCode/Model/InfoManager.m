@@ -7,15 +7,18 @@
 //
 
 #import "InfoManager.h"
+#import <AudioToolbox/AudioToolbox.h>
 static InfoManager*sharedManager;
 @implementation InfoManager
-@synthesize myShop;
+@synthesize myShop,deviceToken,settingDic;
 +(InfoManager*)sharedInfo
 {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         sharedManager=[[InfoManager alloc] init];
         sharedManager.myShop=[[ShopObject alloc] init];
+        NSString *plistPath = [[NSBundle mainBundle] pathForResource:@"Setting" ofType:@"plist"];
+        sharedManager.settingDic=[[NSMutableDictionary alloc] initWithContentsOfFile:plistPath];
     });
     return sharedManager;
 }
@@ -159,4 +162,84 @@ static InfoManager*sharedManager;
     UIImage*image=[UIImage imageWithData:data];
     return image;
 }
+#pragma mark Token
+-(void)updateToken:(NSString*)token
+{
+    NSURL*url=[NSURL URLWithString:tokenUp];
+    ASIFormDataRequest*request=[[ASIFormDataRequest alloc] initWithURL:url];
+    [request setPostValue:token forKey:@"deviceToken"];
+    [request setCompletionBlock:^{
+        SBJsonParser*parser=[[SBJsonParser alloc] init];
+        NSDictionary *dic=[parser objectWithString:request.responseString];
+        if ([[dic objectForKey:@"back"] integerValue]==1) {
+            
+        }
+    }];
+    [request setFailedBlock:^{
+        
+    }];
+    [request startAsynchronous];
+}
+-(void)registerToken
+{
+    NSString*deviceToken=[[NSUserDefaults standardUserDefaults]objectForKey:@"deviceToken"];
+    NSString*hostID=[[NSUserDefaults standardUserDefaults] objectForKey:kXMPPmyJID];
+    NSURL*url=[NSURL URLWithString:tokenRegister];
+    ASIFormDataRequest*request=[[ASIFormDataRequest alloc] initWithURL:url];
+    [request setPostValue:deviceToken forKey:@"deviceToken"];
+    [request setPostValue:hostID forKey:@"id"];
+    [request setPostValue:@"shop" forKey:@"kind"];
+    [request setCompletionBlock:^{
+        SBJsonParser*parser=[[SBJsonParser alloc] init];
+        NSDictionary *dic=[parser objectWithString:request.responseString];
+        if ([[dic objectForKey:@"back"] integerValue]==1) {
+            
+        }
+    }];
+    [request setFailedBlock:^{
+        
+    }];
+    [request startAsynchronous];
+}
+#pragma mark plistController
+-(void)writeInfoFile
+{
+    NSString *plistPath = [[NSBundle mainBundle] pathForResource:@"setting" ofType:@"plist"];
+    [settingDic writeToFile:plistPath atomically:YES];
+}
+-(BOOL)checkSetting:(NSString *)NSString
+{
+    return [[settingDic objectForKey:NSString] boolValue];
+}
+-(void)playAudio:(NSString*)string
+{
+    SystemSoundID sound;
+    if ([string isEqualToString:@"message"]) {
+        if ([[settingDic objectForKey:@"messageSound"] boolValue]) {
+            NSString *path = [NSString stringWithFormat:@"/System/Library/Audio/UISounds/sms-received1.caf"];
+            CFURLRef thesoundURL = (__bridge CFURLRef)[NSURL fileURLWithPath:path];
+            OSStatus error = AudioServicesCreateSystemSoundID((CFURLRef)thesoundURL,&sound);
+            AudioServicesPlaySystemSound(sound);
+        }
+        if ([[settingDic objectForKey:@"messageShack"] boolValue]) {
+            sound = kSystemSoundID_Vibrate;
+            AudioServicesPlaySystemSound(sound);
+        }
+    }
+    if ([string isEqualToString:@"order"]) {
+        if ([[settingDic objectForKey:@"orderSound"] boolValue]) {
+            NSString *path = [NSString stringWithFormat:@"/System/Library/Audio/UISounds/sms-received1.caf"];
+            CFURLRef thesoundURL = (__bridge CFURLRef)[NSURL fileURLWithPath:path];
+            OSStatus error = AudioServicesCreateSystemSoundID((CFURLRef)thesoundURL,&sound);
+            AudioServicesPlaySystemSound(sound);
+        }
+        if ([[settingDic objectForKey:@"orderShack"] boolValue]) {
+            sound = kSystemSoundID_Vibrate;
+            AudioServicesPlaySystemSound(sound);
+        }
+
+    }
+    
+}
+
 @end

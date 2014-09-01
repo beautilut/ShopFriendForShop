@@ -143,56 +143,19 @@
 {
     [ProgressHUD show:@"正在创建用户"];
     [buttonRight setEnabled:NO];
-    NSURL*url=[NSURL URLWithString:registerURL];
-    ASIFormDataRequest*request=[ASIFormDataRequest requestWithURL:url];
-    for (NSString*key in [postDic allKeys]) {
-        if (![key isEqualToString:@"shopLogo"]) {
-            [request setPostValue:[postDic objectForKey:key] forKey:key];
-        }else
-        {
-            UIImage*image=[postDic objectForKey:key];
-            NSData*imagedata=UIImageJPEGRepresentation(image, 0.1);
-            [request setData:imagedata withFileName:@"shopLogo.jpg" andContentType:@"image/jpeg " forKey:@"shopLogo"];
-        }
-    }
-    [request setCompletionBlock:^{
-        SBJsonParser*parser=[[SBJsonParser alloc] init];
-        NSDictionary*dic=[parser objectWithString:request.responseString];
-        if ([[dic objectForKey:@"back"] integerValue]==1) {
-            NSMutableDictionary*newDic=[[NSMutableDictionary alloc] init];
-            [newDic setObject:[postDic objectForKey:@"shopID"] forKey:sfShopID];
-            [newDic setObject:[postDic objectForKey:@"shopName"] forKey:sfShopName];
-            [newDic setObject:[postDic objectForKey:@"shopCategoryWord"] forKey:sfShopCategoryWord];
-            [newDic setObject:[postDic objectForKey:@"shopCategory"] forKey:sfShopCategory];
-            [newDic setObject:[postDic objectForKey:@"shopCategoryDetail"] forKey:sfShopCategoryDetail];
-            [newDic setObject:[postDic objectForKey:@"shopTel"] forKey:sfShopTel];
-            [newDic setObject:[postDic objectForKey:@"shopAddress"] forKey:sfShopAddress];
-            ShopObject*newShop=[ShopObject shopFromDictionary:newDic];
-            [ShopObject saveNewShop:newShop];
-            [[NSUserDefaults standardUserDefaults] setObject:[postDic objectForKey:@"shopID"] forKey:kXMPPmyJID];
-            [[NSUserDefaults standardUserDefaults] setObject:[postDic objectForKey:@"shopPassword"] forKey:kXMPPmyPassword];
-            [[InfoManager sharedInfo] getShopInfo];
-            [[SFXMPPManager sharedInstance] connect];
-            SDWebImageManager *manager = [SDWebImageManager sharedManager];
-            NSURL*url=[NSURL URLWithString:SHOP_LOGO([postDic objectForKey:@"shopID"])];
-            [manager downloadWithURL:url options:0 progress:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished)
-             {
-                 //[[SDImageCache sharedImageCache] storeImage:image forKey:shopLogoKey toDisk:YES];
-                 [[InfoManager sharedInfo] saveUserImage:image];
-                 [ProgressHUD dismiss];
-                 [[NSNotificationCenter defaultCenter] postNotificationName:@"logoGet" object:nil];
-             }];
-            //[[NSNotificationCenter defaultCenter] postNotificationName:@"registerSuccess" object:nil]
-            [buttonRight setEnabled:YES];
-            [self dismissViewControllerAnimated:YES completion:Nil];
-        }
-    }];
-    [request setFailedBlock:^{
-        [buttonRight setEnabled:YES];
-        [ProgressHUD dismiss];
-        NSLog(@"fail");
-    }];
-    [request startAsynchronous];
+    [[WebShopMethods share] shopRegister:postDic];
+}
+#pragma mark webShopDelegate
+-(void)registerSuccess
+{
+     [ProgressHUD dismiss];
+    [self dismissViewControllerAnimated:YES completion:Nil];
+    [buttonRight setEnabled:YES];
+}
+-(void)registerFail
+{
+    [buttonRight setEnabled:YES];
+    [ProgressHUD dismiss];
 }
 #pragma mark - alterview delegate
 -(void)getSendFromMain:(NSMutableDictionary*)dic

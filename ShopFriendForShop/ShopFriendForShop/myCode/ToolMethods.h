@@ -11,4 +11,5 @@
 @interface ToolMethods : NSObject
 +(ToolMethods*)sharedMethods;
 -(NSString*)JSONString:(id)data;
+-(BOOL)checkPhone:(NSString *)string;
 @end

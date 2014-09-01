@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "VPImageCropperViewController.h"
-@interface RegisterOtherViewController : UIViewController<UIAlertViewDelegate,UIActionSheetDelegate,UIImagePickerControllerDelegate,UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate,VPImageCropperDelegate,UINavigationControllerDelegate>
+@interface RegisterOtherViewController : UIViewController<UIAlertViewDelegate,UIActionSheetDelegate,UIImagePickerControllerDelegate,UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate,VPImageCropperDelegate,UINavigationControllerDelegate,WebShopMethodsDelegate>
 {
 
 }

@@ -11,20 +11,26 @@
 #define SHOP_LOGO(_SHOP_) [NSString stringWithFormat:@"http://www.beautilut.com/shopFriendDatabase/shopDatabase/%@/shopLogo.jpg",_SHOP_]
 #define getMyShopInfo @"http://www.beautilut.com/shopFriend/shopMethod/shopInfo.php"
 #define getAllShopCategory @"http://www.beautilut.com/shopFriend/shopMethod/ShopCategory.php"
-
+//
 #define enterURL @"http://www.beautilut.com/shopFriend/shopMethod/shopEnter.php"
 #define registerURL @"http://www.beautilut.com/shopFriend/shopMethod/shopRegister.php"
 #define TalkImage @"http://www.beautilut.com/shopFriend/TalkImage.php"
 #define GetTalkInfo @"http://www.beautilut.com/shopFriend/XMPPMethod/InfoGet.php"
-
+//invitation
+#define webInvitationGet @"http://www.beautilut.com/shopFriend/other/getInvitation.php"//Y
+#define invitation @"http://www.beautilut.com/shopFriend/other/invitation.php" //y
+//
 #define USER_IMAGE_URL(_USERID_) [NSString stringWithFormat:@"http://www.beautilut.com/shopFriendDatabase/userDatabase/%@/userImage.jpg",_USERID_]
 #define GET_CHAT_IMAGE(_PHOTO_) [NSString stringWithFormat:@"http://www.beautilut.com/res/%@",_PHOTO_]
+//token
+#define tokenUp @""
+#define tokenRegister @""
 //menu
 #define menuGetURL @"http://www.beautilut.com/shopFriend/menuMethods/menuGet.php"
 #define menuImageURL @"http://www.beautilut.com/shopFriendDatabase/shopDatabase/"
 #define menuDeleteURL @"http://www.beautilut.com/shopFriend/menuMethods/menuDelete.php"
-#define menuInsertURL @"http://www.beautilut.com/shopFriend/menuMethods/menuInput.php"
-#define menuChangeURL @"http://www.beautilut.com/shopFriend/menuMethods/menuChange.php"
+#define menuInsertURL @"http://www.beautilut.com/shopFriend/menuMethods/menuInput.php" //y
+#define menuChangeURL @"http://www.beautilut.com/shopFriend/menuMethods/menuChange.php" //y
 #define menuRankURL @"http://www.beautilut.com/shopFriend/menuMethods/menuRank.php"
 //category
 #define categoryInsertURL @"http://www.beautilut.com/shopFriend/menuMethods/categoryInput.php"
@@ -47,9 +53,21 @@
 
 //Order
 #define insertOrderURL @""
-#define updateOrderURL @""
-#define getOrderURL @"http://115.28.89.105/shopFriend/OrderMethods/getOrder.php"
+#define getAllOrderURL @"http://www.beautilut.com/shopFriend/OrderMethods/getAllOrders.php" //y
+#define updateOrderURL @"http://www.beautilut.com/shopFriend/OrderMethods/updateOrder.php" //y
+#define getOrderURL @"http://www.beautilut.com/shopFriend/OrderMethods/getOrder.php" //y
 //coupon
-#define couponModelInsertURL @""
+#define couponModelGetURL @"http://www.beautilut.com/shopFriend/couponMethods/shopCouponGet.php" //x
+#define couponModelInsertURL @"http://www.beautilut.com/shopFriend/couponMethods/newCouponModel.php" //x
 #define couponModelChangeURL @""
 #define sendCouponURL @""
+
+//server
+#define serverGetURL @"http://www.beautilut.com/shopFriend/ServerMethods/getServerList.php" //y
+#define getMyServer @"http://www.beautilut.com/shopFriend/ServerMethods/showMyServer.php" //y
+#define serverInfoChange @"http://www.beautilut.com/shopFriend/ServerMethods/changeServerInfo.php" //y
+#define registerServerURL @"http://www.beautilut.com/shopFriend/ServerMethods/registerServer.php" //y
+#define getGoodServerURL @"http://www.beautilut.com/shopFriend/ServerMethods/serverMenu.php" //y
+
+//report
+#define reportURL @"http://www.beautilut.com/shopFriend/other/report.php"

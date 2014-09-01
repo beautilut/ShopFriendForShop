@@ -7,14 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#define sfShopID @"shop_ID"
-#define sfShopName @"shop_name"
-#define sfShopCategoryWord @"shopCategoryWord"
-#define sfShopCategory @"shop_category"
-#define sfShopCategoryDetail @"shop_category_detail"
-#define sfShopAddress @"shop_address"
-#define sfShopTel @"shop_tel"
-#define sfShopOpenTime @"shop_opening_time"
+
 @interface ShopObject : NSObject
 @property(nonatomic,retain) NSString*shopID;
 @property(nonatomic,retain) NSString*shopName;

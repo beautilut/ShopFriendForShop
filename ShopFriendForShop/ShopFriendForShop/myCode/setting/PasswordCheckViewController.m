@@ -11,6 +11,7 @@
 @interface PasswordCheckViewController ()
 {
     UITextField*phoneCheckField;
+    UIButton*enterButton;
 }
 @end
 
@@ -31,6 +32,7 @@
     
     CGRect screenRect=[[UIScreen mainScreen] bounds];
     
+    [self.view setBackgroundColor:[UIColor colorWithRed:0.94 green:0.94 blue:0.96 alpha:1.0]];
     SFNaviBar*navi=[[SFNaviBar alloc] initWithFrame:CGRectMake(0, 0, 0, 0)];
     [navi openNaviShadow:YES];
     [self.view addSubview:navi];
@@ -50,7 +52,7 @@
     [leftButton setTitleColor:[UIColor colorWithRed:25.0/255.0 green:173.0/255.0 blue:220.0/255.0 alpha:1.0f] forState:UIControlStateNormal];
     [navi addSubview:leftButton];
     
-    UIButton*enterButton=[[UIButton alloc] initWithFrame:CGRectMake(navi.frame.size.width-45,24,40,40)];
+    enterButton=[[UIButton alloc] initWithFrame:CGRectMake(navi.frame.size.width-45,24,40,40)];
     [enterButton addTarget:self action:@selector(checkPhone:) forControlEvents:UIControlEventTouchDown];
     [enterButton.titleLabel setTextAlignment:NSTextAlignmentRight];
     [enterButton setTitle:@"确定" forState:UIControlStateNormal];
@@ -58,6 +60,7 @@
     [navi addSubview:enterButton];
     
     phoneCheckField=[[UITextField alloc] initWithFrame:CGRectMake(40,navi.frame.origin.y+navi.frame.size.height+30, screenRect.size.width-80, 40)];
+    [phoneCheckField setBackgroundColor:[UIColor whiteColor]];
     [phoneCheckField setDelegate:self];
     [phoneCheckField setBorderStyle:UITextBorderStyleLine];
     [phoneCheckField setSecureTextEntry:YES];
@@ -73,10 +76,12 @@
 }
 -(void)checkPhone:(id)sender
 {
+    [enterButton setEnabled:NO];
     if ([phoneCheckField.text isEqualToString:@""]) {
         UIAlertView*alter=[[UIAlertView alloc] initWithTitle:@"" message:@"请输入密码" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
         [alter show];
         return;
+        [enterButton setEnabled:YES];
     }
     NSURL*url=[NSURL URLWithString:enterURL];
      NSString*hostID=[[NSUserDefaults standardUserDefaults] objectForKey:kXMPPmyJID];
@@ -89,15 +94,18 @@
         if ([[dic objectForKey:@"back"] integerValue]==1) {
             [self dismissViewControllerAnimated:YES completion:nil];
             [delegate passwordCheckON:nil];
+            [enterButton setEnabled:YES];
         }else{
             UIAlertView*alter=[[UIAlertView alloc] initWithTitle:@"错误" message:@"账号密码错误" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
             [alter show];
+            [enterButton setEnabled:YES];
         }
         
     }];
     [request setFailedBlock:^{
         UIAlertView*alter=[[UIAlertView alloc] initWithTitle:@"错误" message:@"验证失败" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
         [alter show];
+        [enterButton setEnabled:YES];
     }];
     [request startAsynchronous];
 }

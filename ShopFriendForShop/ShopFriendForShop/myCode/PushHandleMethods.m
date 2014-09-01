@@ -20,9 +20,10 @@ static PushHandleMethods*sharedPush;
 }
 -(void)handleWithAPI:(NSString *)api with:(NSString*)data
 {
-    NSLog(@"%@",api);
-    if ([api isEqualToString:@"newOrder"]) {
-        [[WebOrderMethods sharedOrder] getNewOrder:data];
+    if (api !=[NSNull null]) {
+        if ([api isEqualToString:@"newOrder"]) {
+            [[WebOrderMethods sharedOrder] getNewOrder:data];
+        }
     }
 }
 @end

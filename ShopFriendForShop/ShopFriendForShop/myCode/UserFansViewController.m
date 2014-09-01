@@ -75,6 +75,10 @@
 {
     [self.navigationController popViewControllerAnimated:YES];
 }
+-(void)viewWillAppear:(BOOL)animated
+{
+
+}
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];

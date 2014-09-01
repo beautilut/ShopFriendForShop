@@ -220,7 +220,7 @@
 }
 -(void)swippableTableViewCell:(SWTableViewCell *)cell didTriggerLeftUtilityButtonWithIndex:(NSInteger)index
 {
-    NSIndexPath*cellIndexPath=[categoryTable indexPathForCell:cell];
+    //NSIndexPath*cellIndexPath=[categoryTable indexPathForCell:cell];
     switch (index) {
         case 0:
             [categoryTable setEditing:!categoryTable.editing animated:YES];

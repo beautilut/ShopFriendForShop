@@ -8,10 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-#define sfCategoryShopID @"shop_ID"
-#define sfCategoryID @"menu_categoryID"
-#define sfCategoryName @"menu_category"
-#define sfCategoryRank @"menu_rank"
+
 @interface CategoryModel : NSObject
 @property(nonatomic,retain) NSString*shopID;
 @property(nonatomic,retain) NSString*categoryID;

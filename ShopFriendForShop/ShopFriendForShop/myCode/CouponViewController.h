@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 #import "NewCouponViewController.h"
-@interface CouponViewController : UIViewController<UITableViewDataSource,UITableViewDelegate,NewCouponViewControllerDelegate>
+@interface CouponViewController : UIViewController<UITableViewDataSource,UITableViewDelegate,NewCouponViewControllerDelegate,WebCouponMethodsDelegate>
 
 @end

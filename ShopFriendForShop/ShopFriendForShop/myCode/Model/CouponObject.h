@@ -7,13 +7,6 @@
 //
 
 #import <Foundation/Foundation.h>
-#define sfCouponModelID @"CouponModel_ID"
-#define sfCouponModelName @"CouponModel_Name"
-#define sfCouponModelInfo @"CouponModel_Info"
-#define sfCouponModelBeginTime @"CouponModel_BeginTime"
-#define sfCouponModelEndTime @"CouponModel_EndTime"
-#define sfCouponModelUserInfo @"CouponModel_useInfo"
-#define sfCouponModelImage @"CouponModel_Image"
 @interface CouponObject : NSObject
 @property(nonatomic,retain) NSString*couponModel_ID;
 @property(nonatomic,retain) NSString*couponModel_name;
@@ -22,7 +15,7 @@
 @property(nonatomic,retain) NSDate*couponModel_endTime;
 @property(nonatomic,retain) NSString*couponModel_useInfo;
 @property(nonatomic,retain) NSString*couponModel_Image;
-
+@property(nonatomic,retain) NSNumber*couponModel_status;
 //数据库增删改查
 +(BOOL)saveNewCoupon:(CouponObject*)aCoupon;
 +(BOOL)deleteCouponById:(NSString*)couponID;

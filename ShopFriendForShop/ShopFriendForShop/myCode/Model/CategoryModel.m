@@ -83,6 +83,7 @@
         NSArray*array=[categoryArray objectAtIndex:i];
         NSString*sql=[NSString stringWithFormat:@"update SFCategory set menu_rank=%@ where menu_cateogoryID=%@",[array objectAtIndex:1],[array objectAtIndex:0]];
         BOOL worked=[db executeUpdate:sql];
+        
     }
 }
 +(NSMutableArray*)fetchAllCategoryFromLocal

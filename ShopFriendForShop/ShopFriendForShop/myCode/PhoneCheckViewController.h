@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface PhoneCheckViewController : UIViewController<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate>
+@interface PhoneCheckViewController : UIViewController<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate,WebShopMethodsDelegate>
 {
     
 }

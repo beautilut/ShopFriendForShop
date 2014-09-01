@@ -17,6 +17,7 @@
 +(WebCouponMethods*)sharedCoupon;
 -(void)webCouponInsert:(NSDictionary*)dic;
 -(void)webCouponChange:(NSDictionary*)dic;
+-(void)webCouponGet;
 @end
 @protocol WebCouponMethodsDelegate <NSObject>
 //webCouponInsert
@@ -25,5 +26,7 @@
 //webCouponUpdate
 -(void)webCouponChangeSuccess;
 -(void)webCouponChangeFail;
-
+//webCouponGet
+-(void)webCouponGetSuccess:(NSArray*)dic;
+-(void)webCouponGetFail;
 @end

@@ -61,9 +61,8 @@
     [leftButton setTitleColor:[UIColor colorWithRed:25.0/255.0 green:173.0/255.0 blue:220.0/255.0 alpha:1.0f] forState:UIControlStateNormal];
     [navi addSubview:leftButton];
     
-    UIView*backView=[[UIView alloc] initWithFrame:CGRectMake(0, naviHight+20, self.view.frame.size.width, 430)];
-    [backView setBackgroundColor:[UIColor blackColor]];
-    [backView setAlpha:0.3f];
+    UIView*backView=[[UIView alloc] initWithFrame:CGRectMake(0, naviHight, self.view.frame.size.width,screenBounds.size.height-naviHight)];
+    [backView setBackgroundColor:[UIColor colorWithRed:0.94 green:0.94 blue:0.96 alpha:1.0]];
     [self.view addSubview:backView];
     
     imageScroll=[[UIScrollView alloc] initWithFrame:backView.frame];

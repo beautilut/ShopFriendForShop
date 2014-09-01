@@ -11,7 +11,7 @@
 #import "FMResultSet.h"
 
 @implementation OrderObject
-@synthesize orderID,orderCreateTime,serverID,shopID,userID,orderStatus;
+@synthesize orderID,orderCreateTime,serverID,shopID,userID,shopName,userName,userLocation,orderStatus,serverName,serverKind,serverSpend,orderTotalPrice;
 
 +(BOOL)saveNewOrder:(OrderObject *)aOrder
 {
@@ -21,8 +21,8 @@
         return NO;
     }
     [OrderObject checkTableCreatedInDb:db];
-    NSString*insertStr=@"INSERT INTO 'SFOrder' ('order_ID','order_createtime','server_ID','user_ID','shop_ID','order_status') VALUES(?,?,?,?,?,?)";
-    BOOL worked=[db executeUpdate:insertStr,aOrder.orderID,aOrder.orderCreateTime,aOrder.serverID,aOrder.userID,aOrder.shopID,aOrder.orderStatus];
+    NSString*insertStr=@"INSERT INTO 'SFOrder' ('order_ID','order_createtime','user_ID','user_name','user_location','shop_ID','shop_name','order_status','server_ID','server_name','server_kind','server_spend','order_total_price') VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)";
+    BOOL worked=[db executeUpdate:insertStr,aOrder.orderID,aOrder.orderCreateTime,aOrder.userID,aOrder.userName,aOrder.userLocation,aOrder.shopID,aOrder.shopName,aOrder.orderStatus,aOrder.serverID,aOrder.serverName,aOrder.serverKind,aOrder.serverSpend,aOrder.orderTotalPrice];
     [db close];
     return  worked;
 }
@@ -73,26 +73,63 @@
     [rs close];
     return NO;
 }
++(NSArray*)showOrders:(NSString *)shopID
+{
+    NSMutableArray*resultArr=[[NSMutableArray alloc]init];
+    FMDatabase*db=[FMDatabase databaseWithPath:DATABASE_PATH];
+    if (![db open]) {
+        NSLog(@"数据库打开失败");
+        return NO;
+    }
+    [OrderObject checkTableCreatedInDb:db];
+    FMResultSet*rs=[db executeQuery:@"SELECT * FROM SFOrder WHERE shop_ID=?",shopID];
+    while ([rs next]) {
+        OrderObject *order=[[OrderObject alloc] init];
+        [order setOrderID:[rs objectForColumnName:sfOrderID]];
+        [order setOrderCreateTime:[rs objectForColumnName:sfOrdercreatetime]];
+        [order setUserID:[rs objectForColumnName:sfUserID]];
+        [order setUserName:[rs objectForColumnName:sfUserName]];
+        [order setUserLocation:[rs objectForColumnName:sfUserLocation]];
+        [order setShopID:[rs objectForColumnName:sfShopID]];
+        [order setShopName:[rs objectForColumnName:sfShopName]];
+        [order setOrderStatus:[rs objectForColumnName:sfOrderStatus]];
+        [order setServerID:[rs objectForColumnName:sfServerID]];
+        [order setServerName:[rs objectForColumnName:sfServername]];
+        [order setServerKind:[rs objectForColumnName:sfServerkind ]];
+        [order setServerSpend:[rs objectForColumnName:sfServerSpend]];
+        [order setOrderTotalPrice:[rs objectForColumnName:sfOrderTotalPrice]];
+        [resultArr addObject:order];
+    }
+    [db close];
+    return resultArr;
+}
 #pragma mark
 +(OrderObject*)orderFromDictionary:(NSDictionary *)aDic
 {
     OrderObject*order=[[OrderObject alloc] init];
     [order setOrderID:[aDic objectForKey:sfOrderID]];
     [order setOrderCreateTime:[aDic objectForKey:sfOrdercreatetime]];
-    [order setServerID:[aDic objectForKey:sfServerID]];
     [order setUserID:[aDic objectForKey:sfUserID]];
+    [order setUserName:[aDic objectForKey:sfUserName]];
+    [order setUserLocation:[aDic objectForKey:sfUserLocation]];
     [order setShopID:[aDic objectForKey:sfShopID]];
+    [order setShopName:[aDic objectForKey:sfShopName]];
     [order setOrderStatus:[aDic objectForKey:sfOrderStatus]];
+    [order setServerID:[aDic objectForKey:sfServerID]];
+    [order setServerName:[aDic objectForKey:sfServername]];
+    [order setServerKind:[aDic objectForKey:sfServerkind]];
+    [order setServerSpend:[aDic objectForKey:sfServerSpend]];
+    [order setOrderTotalPrice:[aDic objectForKey:sfOrderTotalPrice]];
     return  order;
 }
--(NSDictionary*)toDictionary
-{
-    NSDictionary*dic=[NSDictionary dictionaryWithObjectsAndKeys:orderID,sfOrderID,orderCreateTime,sfOrdercreatetime,serverID,sfServerID,userID,sfUserID,shopID,sfShopID,orderStatus,sfOrderStatus, nil];
-    return dic;
-}
+//-(NSDictionary*)toDictionary
+//{
+//    NSDictionary*dic=[NSDictionary dictionaryWithObjectsAndKeys:orderID,sfOrderID,orderCreateTime,sfOrdercreatetime,serverID,sfServerID,userID,sfUserID,shopID,sfShopID,orderStatus,sfOrderStatus, nil];
+//    return dic;
+//}
 +(BOOL)checkTableCreatedInDb:(FMDatabase*)db
 {
-    NSString*createStr=@"CREATE TABLE IF NOT EXISTS 'SFOrder' ('order_ID' VARCHAR PRIMARY KEY,'order_createtime' DATETIME,'server_ID' VARCHAR,'user_ID' VARCHAR,'shop_ID' VARCHAR,'order_status' INT)";
+    NSString*createStr=@"CREATE TABLE IF NOT EXISTS 'SFOrder' ('order_ID' VARCHAR PRIMARY KEY,'order_createtime' DATETIME,'user_ID' VARCHAR,'user_name' VARCHAR,'user_location' VARCHAR,'shop_ID' VARCHAR,'shop_name' VARCHAR,'order_status' INT,'server_ID' VARCHAR,'server_name' VARCHAR,'server_kind' INT,'server_spend' FLOAT,'order_total_price' FLOAT)";
     BOOL worked = [db executeUpdate:createStr];
     FMDBQuickCheck(worked);
     return worked;

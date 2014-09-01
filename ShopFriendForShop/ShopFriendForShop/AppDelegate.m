@@ -18,6 +18,10 @@ BMKMapManager* _mapManager;
     // Override point for customization after application launch.
     
     [[UIApplication sharedApplication] registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge|UIRemoteNotificationTypeSound|UIRemoteNotificationTypeAlert)];
+    if (launchOptions !=nil) {
+        NSDictionary*userInfo=[launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
+        NSLog(@"%@",userInfo);
+    }
     
     _mapManager=[[BMKMapManager alloc] init];
     BOOL ret = [_mapManager start:@"HmNiM2bOmGyDEBXnY2inMepp" generalDelegate:self];
@@ -92,13 +96,13 @@ BMKMapManager* _mapManager;
 #pragma mark -push-
 -(void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
 {
-    NSLog(@"%@",deviceToken);
+    NSString*deviceTokenString=[[[[deviceToken description] stringByReplacingOccurrencesOfString:@"<" withString:@""]                 stringByReplacingOccurrencesOfString:@">" withString:@""] stringByReplacingOccurrencesOfString:@" " withString:@""];
+    [[NSUserDefaults standardUserDefaults] setObject:deviceTokenString forKey:@"deviceToken"];
     
 }
 //push 消息处理类
 -(void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
 {
-    NSLog(@"%@",userInfo);
     NSDictionary*dic=[userInfo objectForKey:@"aps"];
     [[PushHandleMethods shared] handleWithAPI:[dic objectForKey:@"api"] with:[dic objectForKey:@"data"]];
 }

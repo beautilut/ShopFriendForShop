@@ -89,6 +89,23 @@
     return  messageList;
     
 }
++(BOOL)cleanMessage:(NSString *)userId
+{
+    //
+    FMDatabase *db=[FMDatabase databaseWithPath:DATABASE_PATH];
+    if (![db open]) {
+        NSLog(@"数据打开失败");
+    }
+    NSString*host= [[NSUserDefaults standardUserDefaults]objectForKey:kXMPPmyJID];
+    NSString*tmp=[NSString stringWithFormat:@"create table tmp as (select * from  (select * from SFMessage where messageFrom=%@ or messageTo=%@) as h where h.messageFrom=%@ or messageTo=%@)",host,host,userId,userId];
+    BOOL work=[db executeUpdate:tmp];
+    NSString *queryString=[NSString stringWithFormat:@"delete from SFMessage where messageId in (select messageId from tmp)"];
+    work=[db executeUpdate:queryString];
+    NSString*string=@"drop table tmp";
+    work=[db executeUpdate:string];
+    [[NSNotificationCenter defaultCenter]postNotificationName:@"deleteMessage" object:nil];
+    return work;
+}
 //获取最近联系人
 +(NSMutableArray *)fetchRecentChatByPage:(int)pageIndex
 {
@@ -100,7 +117,7 @@
         return messageList;
     }
     NSString*hostID=[[NSUserDefaults standardUserDefaults]objectForKey:kXMPPmyJID];
-    NSString *queryString=@"select * from (select * from SFMessage where messageFrom=? or messageTo=? order by messageDate asc) as m ,SFUser as u where u.userId=m.messageFrom or u.userId=m.messageTo group by u.userId  order by m.messageDate desc limit ?,10";
+    NSString *queryString=@"select * from (select * from SFMessage where messageFrom=? or messageTo=? order by messageDate asc) as m , SFUser as u where u.user_ID=m.messageFrom or u.user_ID=m.messageTo group by u.user_ID  order by m.messageDate desc";
     FMResultSet *rs=[db executeQuery:queryString,hostID,hostID,[NSNumber numberWithInt:pageIndex-1]];
     while ([rs next]) {
         MessageModel*message=[[MessageModel alloc]init];
@@ -112,11 +129,11 @@
         [message setMessageType:[rs objectForColumnName:kMESSAGE_TYPE]];
         
         UserObject*user=[[UserObject alloc]init];
-        [user setUserId:[rs stringForColumn:kUSER_ID]];
-        [user setUserNickname:[rs stringForColumn:kUSER_NICKNAME]];
+        [user setUserId:[rs stringForColumn:sfUserID]];
+        [user setUserNickname:[rs stringForColumn:sfUserName]];
         //[user setUserHead:[rs stringForColumn:kUSER_USERHEAD]];
         //[user setUserDescription:[rs stringForColumn:kUSER_DESCRIPTION]];
-        [user setFriendFlag:[rs objectForColumnName:kUSER_FRIEND_FLAG]];
+        [user setFriendFlag:[rs objectForColumnName:sfUserFlag]];
         
         MessageUserUnionObject*unionObject=[MessageUserUnionObject unionWithMessage:message andUser:user ];
         

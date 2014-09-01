@@ -55,13 +55,19 @@
     [self.view bringSubviewToFront:navi];
     
     [self refresh];
-    [self addFooter];
+    //[self addFooter];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(newMsgCome:) name:kXMPPNewMsgNotifaction object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showTalkView:) name:@"showTalkView" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refresh) name:@"deleteMessage" object:nil];
     // Do any additional setup after loading the view.
 }
 -(void)popViewController:(id)sender
 {
     [self.navigationController popViewControllerAnimated:YES];
+}
+-(void)viewWillAppear:(BOOL)animated
+{
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"CustomBadgeClear" object:nil];
 }
 - (void)didReceiveMemoryWarning
 {

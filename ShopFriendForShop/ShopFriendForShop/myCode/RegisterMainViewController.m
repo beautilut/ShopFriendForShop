@@ -72,7 +72,7 @@
     [navi addSubview:button];
     UIButton*buttonRight=[[UIButton alloc] initWithFrame:CGRectMake(navi.frame.size.width-65, 24, 60, 40)];
     [buttonRight addTarget:self action:@selector(next:) forControlEvents:UIControlEventTouchDown];
-    [button.titleLabel setTextAlignment:NSTextAlignmentRight];
+    [buttonRight.titleLabel setTextAlignment:NSTextAlignmentRight];
     [buttonRight setTitle:@"下一步" forState:UIControlStateNormal];
     [buttonRight setTitleColor:[UIColor colorWithRed:25.0/255.0 green:173.0/255.0 blue:220.0/255.0 alpha:1.0f] forState:UIControlStateNormal];
     [navi addSubview:buttonRight];

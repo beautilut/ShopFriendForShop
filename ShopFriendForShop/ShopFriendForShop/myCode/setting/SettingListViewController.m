@@ -77,7 +77,7 @@
         return 1;
     }
     if (section==2) {
-        return 1;
+        return 2;
     }
     if (section==3) {
         return 1;
@@ -86,7 +86,7 @@
 }
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 3;
+    return 4;
 }
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -107,16 +107,24 @@
 //        [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
 //    }
     if ([indexPath section]==1&&indexPath.row==0) {
-        [cell.textLabel setText:@"反馈"];
+        [cell.textLabel setText:@"服务"];
         [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
     }
     if ([indexPath section]==2&&indexPath.row==0) {
+        [cell.textLabel setText:@"消息通知"];
+        [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
+    }
+    if ([indexPath section]==2&&indexPath.row==1) {
+        [cell.textLabel setText:@"反馈"];
+        [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
+    }
+    if ([indexPath section]==3&&indexPath.row==0) {
         [cell.textLabel setText:@"退出"];
         [cell.textLabel setTextAlignment:NSTextAlignmentCenter];
         [cell setBackgroundColor:[UIColor redColor]];
         [cell.textLabel setTextColor:[UIColor whiteColor]];
     }
-    [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+    [cell setSelectionStyle:UITableViewCellSelectionStyleDefault];
     return cell;
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -131,12 +139,19 @@
         [self performSegueWithIdentifier:@"passwordChange" sender:nil];
     }
     if ([indexPath section]==1&&indexPath.row==0) {
-        [self performSegueWithIdentifier:@"feedBack" sender:nil];
+        [self performSegueWithIdentifier:@"showServer" sender:nil];
     }
     if ([indexPath section]==2&&indexPath.row==0) {
+        [self performSegueWithIdentifier:@"messageSetting" sender:nil];
+    }
+    if ([indexPath section]==2&&indexPath.row==1) {
+        [self performSegueWithIdentifier:@"feedBack" sender:nil];
+    }
+    if ([indexPath section]==3&&indexPath.row==0) {
         UIAlertView*alterView=[[UIAlertView alloc] initWithTitle:@"" message:@"是否退出" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
         [alterView show];
     }
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {

@@ -7,13 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
-#define sfOrderDetailID @"orderDetail_ID"
-#define sfGoodID @"good_ID"
-#define sfGoodNumber @"good_number"
-#define sfGoodPrice @"good_price"
+
 @interface OrderDetailObject : NSObject
-@property(nonatomic,retain) NSString*orderDetailID;
+@property(nonatomic,retain) NSString*orderID;
 @property(nonatomic,retain) NSString*goodID;
+@property(nonatomic,retain) NSString*goodName;
 @property(nonatomic,retain) NSNumber*goodNumber;
 @property(nonatomic,retain) NSNumber*goodPrice;
 
@@ -22,7 +20,7 @@
 +(BOOL)deleteOrderDetailById:(NSString*)detailID;
 +(BOOL)updateOrderDetail:(OrderDetailObject*)aDetail;
 +(BOOL)haveSaveOrderById:(NSString*)detailID;
-
++(NSArray*)getDetailByID:(NSString*)orderID;
 //将对象转换为字典
 -(NSDictionary*)toDictionary;
 +(OrderDetailObject*)orderFromDictionary:(NSDictionary*)aDic;

@@ -335,10 +335,8 @@ static SFXMPPManager * sharedManager;
     }else
         [msg setMessageContent:[messageDic objectForKey:@"file"]];
     [MessageModel save:msg];
-    
-    
-    
-    
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"customNumberChange" object:nil];
+    [[InfoManager sharedInfo] playAudio:@"message"];
     
     if([[UIApplication sharedApplication] applicationState] != UIApplicationStateActive)
     {

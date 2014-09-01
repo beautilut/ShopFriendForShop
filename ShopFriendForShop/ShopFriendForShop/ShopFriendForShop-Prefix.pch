@@ -19,6 +19,7 @@
 #ifdef __OBJC__
     #import <UIKit/UIKit.h>
     #import <Foundation/Foundation.h>
+#import "ModelDefine.h"
 #import "SFXMPPManager.h"
 #import "DDLog.h"
 #import "UIImageView+WebCache.h"
@@ -36,6 +37,9 @@
 #import "CategoryModel.h"
 #import "SFSliderViewController.h"
 #import "ToolMethods.h"
+#import "OrderDetailObject.h"
+#import "OrderObject.h"
+#import "WebHeader.h"
 #endif
 
 #ifdef DEBUG

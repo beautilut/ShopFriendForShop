@@ -7,10 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#define kUSER_ID @"user_ID"
-#define kUSER_NICKNAME @"user_name"
-//#define kUSER_USERHEAD @"userHead"
-#define kUSER_FRIEND_FLAG @"friendFlag"
+
 @interface UserObject : NSObject
 @property(nonatomic,retain) NSString*userId;
 @property(nonatomic,retain) NSString*userNickname;

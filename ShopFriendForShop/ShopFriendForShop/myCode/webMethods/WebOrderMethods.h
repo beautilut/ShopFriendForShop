@@ -17,8 +17,9 @@
 @property(nonatomic,strong)id <WebOrderMethodsDelegate> delegate;
 +(WebOrderMethods*)sharedOrder;
 -(void)webOrderInsert:(NSDictionary*)dic;
--(void)webOrderUpdate:(NSDictionary*)dic;
+-(void)webOrderUpdate:(OrderObject*)aOrder;
 -(void)getNewOrder:(NSString*)orderID;
+-(void)getAllOrders;
 @end
 @protocol WebOrderMethodsDelegate  <NSObject>
 
@@ -28,7 +29,7 @@
 //webOrderUpdate
 -(void)webOrderUpdateSuccess;
 -(void)webOrderUpdateFail;
-//webOrderGet
--(void)webOrderGetSuccess;
--(void)webOrderGetFail;
+//webOrderALL
+-(void)getAllOrdersSuccess:(NSDictionary*)dic;
+-(void)getAllOrdersFail;
 @end

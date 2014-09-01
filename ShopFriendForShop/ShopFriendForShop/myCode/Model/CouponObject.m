@@ -10,7 +10,7 @@
 #import "FMDatabase.h"
 #import "FMResultSet.h"
 @implementation CouponObject
-@synthesize couponModel_ID,couponModel_info,couponModel_beginTime,couponModel_endTime,couponModel_name,couponModel_useInfo,couponModel_Image;
+@synthesize couponModel_ID,couponModel_info,couponModel_beginTime,couponModel_endTime,couponModel_name,couponModel_useInfo,couponModel_Image,couponModel_status;
 +(BOOL)saveNewCoupon:(CouponObject *)aCoupon
 {
     FMDatabase*db=[FMDatabase databaseWithPath:DATABASE_PATH];
@@ -22,8 +22,8 @@
     if (aCoupon.couponModel_beginTime) {
         [aCoupon setCouponModel_beginTime:NULL];
     }
-    NSString*insertStr=@"INSERT INTO 'SFCouponObject' ('CouponModel_ID','CouponModel_Name','CouponModel_Info','CouponModel_BeginTime','CouponModel_EndTime','CouponModel_useInfo','CouponModel_Image') VALUES(?,?,?,?,?,?,?,)";
-    BOOL worked=[db executeUpdate:insertStr,aCoupon.couponModel_ID,aCoupon.couponModel_name,aCoupon.couponModel_info,aCoupon.couponModel_beginTime,aCoupon.couponModel_endTime,aCoupon.couponModel_useInfo,aCoupon.couponModel_Image];
+    NSString*insertStr=[NSString stringWithFormat:@"INSERT INTO 'SFCouponObject' ('%@','%@','%@','%@','%@','%@','%@','%@') VALUES(?,?,?,?,?,?,?,?)",sfCouponModelID,sfCouponModelName,sfCouponModelInfo,sfCouponModelBeginTime,sfCouponModelEndTime,sfCouponModelUserInfo,sfCouponModelImage,sfCouponModelStatus];
+    BOOL worked=[db executeUpdate:insertStr,aCoupon.couponModel_ID,aCoupon.couponModel_name,aCoupon.couponModel_info,aCoupon.couponModel_beginTime,aCoupon.couponModel_endTime,aCoupon.couponModel_useInfo,aCoupon.couponModel_Image,aCoupon.couponModel_status];
     [db close];
     return worked;
 }
@@ -35,7 +35,7 @@
         return NO;
     }
     [CouponObject checkTableCreatedInDb:db];
-    NSString*queryStr=@"DELETE FROM SFCouponObject WHERE CouponModel_ID=?";
+    NSString*queryStr=@"DELETE FROM SFCouponObject WHERE couponModel_ID=?";
     BOOL worked=[db executeUpdate:queryStr,couponID];
     return worked;
 }
@@ -47,13 +47,13 @@
         return NO;
     }
     [CouponObject checkTableCreatedInDb:db];
-    NSString*update=@"UPDATE SFCouponObject SET CouponModel_Name=?,CouponModel_Info=？CouponModel_EndTime=?,CouponModel_useInfo=?,CouponModel_Image=? WHERE CouponModel_ID=?";
+    NSString*update=[NSString stringWithFormat:@"UPDATE SFCouponObject SET %@=?,%@=？%@=?,%@=?,%@=? WHERE %@=?",sfCouponModelName,sfCouponModelInfo,sfCouponModelEndTime,sfCouponModelUserInfo,sfCouponModelImage,sfCouponModelID];
     BOOL worked=[db executeUpdate:update,aCoupon.couponModel_name,aCoupon.couponModel_info,aCoupon.couponModel_endTime,aCoupon.couponModel_useInfo,aCoupon.couponModel_Image,aCoupon.couponModel_ID];
     
     if (worked)
     {
         if (aCoupon.couponModel_beginTime!=nil) {
-            NSString*changeBeginTime=@"UPDATE SFCouponObject set CouponModel_BeginTime=? WHERE CouponModel_ID=?";
+            NSString*changeBeginTime=[NSString stringWithFormat:@"UPDATE SFCouponObject set %@=? WHERE %@=?",sfCouponModelBeginTime,sfCouponModelID];
             BOOL  worked=[db executeUpdate:changeBeginTime,aCoupon.couponModel_beginTime,aCoupon.couponModel_ID];
         }
     }
@@ -102,7 +102,7 @@
 }
 +(BOOL)checkTableCreatedInDb:(FMDatabase*)db
 {
-    NSString*createStr=@"CREATE TABLE IF NOT EXISTS 'SFCouponObject' ('CouponModel_ID' VARCHAR PRIMARY KEY,'CouponModel_Name' VARCHAR,'CouponModel_Info' VARCHAR,'CouponModel_BeginTime' DATETIME,'CouponModel_EndTime' DATETIME,'CouponModel_useInfo' VARCHAR,'CouponModel_Image'VARCHAR)";
+    NSString*createStr=[NSString stringWithFormat:@"CREATE TABLE IF NOT EXISTS 'SFCouponObject' ('%@' VARCHAR PRIMARY KEY,'%@' VARCHAR,'%@' VARCHAR,'%@' DATETIME,'%@' DATETIME,'%@' VARCHAR,'%@'VARCHAR,'%@' INT)",sfCouponModelID,sfCouponModelName,sfCouponModelInfo,sfCouponModelBeginTime,sfCouponModelEndTime,sfCouponModelUserInfo,sfCouponModelImage,sfCouponModelStatus];
     BOOL worked=[db executeUpdate:createStr];
     FMDBQuickCheck(worked);
     return worked;

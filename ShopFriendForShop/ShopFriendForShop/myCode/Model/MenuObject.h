@@ -7,14 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#define sfGoodCategory @"menu_categoryID"
-#define sfGoodID @"good_ID"
-#define sfGoodName @"good_name"
-#define sfGoodPrice @"good_price"
-#define sfGoodPhotoCount @"good_photo_count"
-#define sfGoodInfo @"good_info"
-#define sfGoodOnSale @"good_onSale"
-#define sfGoodRank @"good_rank"
+
 @interface MenuObject : NSObject
 @property(nonatomic,retain) NSString*categoryID;
 @property(nonatomic,retain) NSString*goodID;

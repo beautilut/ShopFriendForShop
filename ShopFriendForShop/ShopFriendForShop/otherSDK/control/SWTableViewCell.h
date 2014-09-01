@@ -27,7 +27,7 @@ typedef enum {
 @end
 
 @interface SWTableViewCell : UITableViewCell
-
+@property (nonatomic, weak) UIView *scrollViewContentView;
 @property (nonatomic, strong) NSArray *leftUtilityButtons;
 @property (nonatomic, strong) NSArray *rightUtilityButtons;
 @property (nonatomic) id <SWTableViewCellDelegate> delegate;

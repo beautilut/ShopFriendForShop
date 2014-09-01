@@ -16,7 +16,9 @@
 #import "MenuInfoCell.h"
 @interface AddMenuViewController ()
 {
-    BOOL change;
+    NSMutableArray*myServer;
+
+    int cellNumber;
     UITableView*menuTable;
     UIScrollView*menuBackScrol;
     UIScrollView*imageScroll;
@@ -30,7 +32,7 @@
     MenuObject*infoMenu;
     TextFieldCell*nameCell;
     TSCurrencyTextField*priceField;
-    
+    UIButton*buttonRight;
     //UIImage*logoImage;
     UIButton*menuLogo;
     UIButton*moveAdd;
@@ -38,6 +40,9 @@
     int imagePickTag;
     BOOL logoChange;
     BOOL imageAdd;
+    
+    NSMutableDictionary*goodServer;
+    
 }
 @end
 
@@ -59,13 +64,14 @@
     SFNaviBar*navi=[[SFNaviBar alloc] initWithFrame:CGRectMake(0, 0, 0, 0)];
     [navi openNaviShadow:YES];
     [self.view addSubview:navi];
+    [self getServerlist];
     UIButton *button=[[UIButton alloc] initWithFrame:CGRectMake(5, 24, 40, 40)];
     [button addTarget:self action:@selector(popViewController:) forControlEvents:UIControlEventTouchDown];
     [button setTitle:@"返回" forState:UIControlStateNormal];
     [button setTitleColor:[UIColor colorWithRed:25.0/255.0 green:173.0/255.0 blue:220.0/255.0 alpha:1.0f] forState:UIControlStateNormal];
     [navi addSubview:button];
     [self.view bringSubviewToFront:navi];
-    UIButton*buttonRight=[[UIButton alloc] initWithFrame:CGRectMake(navi.frame.size.width-45,24,40,40)];
+    buttonRight=[[UIButton alloc] initWithFrame:CGRectMake(navi.frame.size.width-45,24,40,40)];
     [buttonRight addTarget:self action:@selector(menuFinish:) forControlEvents:UIControlEventTouchDown];
     [buttonRight setTitle:@"完成" forState:UIControlStateNormal];
     [buttonRight setTitleColor:[UIColor colorWithRed:25.0/255.0 green:173.0/255.0 blue:220.0/255.0 alpha:1.0f] forState:UIControlStateNormal];
@@ -77,7 +83,7 @@
     [self.view addSubview:menuBackScrol];
     
     int naviHeight=self.navigationController.navigationBar.frame.size.height+20;
-    menuTable=[[UITableView alloc] initWithFrame:CGRectMake(0,0,menuBackScrol.frame.size.width,250) style:UITableViewStyleGrouped];
+    menuTable=[[UITableView alloc] initWithFrame:CGRectMake(0,0,menuBackScrol.frame.size.width,300) style:UITableViewStyleGrouped];
     [menuTable setDelegate:self];
     [menuTable setDataSource:self];
     [menuTable setScrollEnabled:NO];
@@ -85,7 +91,7 @@
     [self.view setBackgroundColor:[menuTable backgroundColor]];
     
     UIView *backView=[[UIView alloc] initWithFrame:CGRectMake(0,menuTable.frame.size.height+5, self.view.frame.size.width, 75)];
-    [backView setBackgroundColor:[UIColor blackColor]];
+    //[backView setBackgroundColor:[UIColor blackColor]];
     [backView setAlpha:0.3f];
     [menuBackScrol addSubview:backView];
     imageScroll=[[UIScrollView alloc] initWithFrame:backView.frame];
@@ -93,6 +99,9 @@
     [menuBackScrol addSubview:imageScroll];
     imageButtonArray =[[NSMutableArray alloc] initWithCapacity:5];
     [self ImageButtonInit];
+    if (cellNumber!=4) {
+        cellNumber=3;
+    }
 //    UIButton*finishButton=[[UIButton alloc] initWithFrame:CGRectMake(10,300, self.view.frame.size.width-20, 40)];
 //    [finishButton setBackgroundColor:[UIColor orangeColor]];
 //    [finishButton setTitle:@"完成" forState:UIControlStateNormal];
@@ -111,7 +120,11 @@
     categoryID=[dic objectForKey:@"categoryID"];
     shopID=[dic objectForKey:@"shopID"];
 }
-
+-(void)getServerlist
+{
+    [[WebServerMethods shared] setDelegate:self];
+    [[WebServerMethods shared] getGoodServer:infoMenu.goodID];
+}
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -121,7 +134,23 @@
 {
     [self.navigationController popViewControllerAnimated:YES];
 }
-
+#pragma mark webserver
+-(void)getGoodServerSuccess:(NSDictionary *)dic
+{
+    myServer=[dic objectForKey:@"myServer"];
+    if (myServer.count!=0) {
+        cellNumber=4;
+    }else
+    {
+        cellNumber=3;
+    }
+    [menuTable reloadData];
+}
+-(void)getGoodServerFail
+{
+    cellNumber=3;
+    [menuTable reloadData];
+}
 #pragma mark - photo
 -(void)ImageButtonInit
 {
@@ -135,7 +164,7 @@
     
     moveAdd=[[UIButton alloc] initWithFrame:CGRectMake(20, 5, 52, 52)];
     [moveAdd addTarget:self action:@selector(imagePick:) forControlEvents:UIControlEventTouchDown];
-    moveAdd.layer.borderColor=[UIColor whiteColor].CGColor;
+    moveAdd.layer.borderColor=[UIColor orangeColor].CGColor;
     moveAdd.layer.borderWidth=2;
     [imageScroll addSubview:moveAdd];
     
@@ -203,8 +232,15 @@
     [menuDic setObject:categoryID forKey:@"goodCategory"];
     [menuDic setObject:postInfo.text forKey:@"goodInfo"];
     [menuDic setObject:shopID forKey:@"shopID"];
-    if ([nameCell.textField.text isEqualToString:@""]||[priceField.amount floatValue]<0.5) {
-        UIAlertView*alter=[[UIAlertView alloc] initWithTitle:@"错误" message:@"请填写完整,价格大于0.5" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+    //[menuDic setObject:myServer forKey:@"server"];
+    NSMutableArray*servers=[[NSMutableArray alloc] init];
+    for (NSDictionary*dic in myServer) {
+        NSDictionary*oneD=[[NSDictionary alloc] initWithObjectsAndKeys:[dic objectForKey:@"server_ID"],@"server_ID",[dic objectForKey:@"registed"],@"registed",nil];
+        [servers addObject:oneD];
+    }
+    [menuDic setObject:servers forKey:@"server"];
+    if ([nameCell.textField.text isEqualToString:@""]||[priceField.amount floatValue]<0.5||[priceField.amount floatValue]>10000000) {
+        UIAlertView*alter=[[UIAlertView alloc] initWithTitle:@"错误" message:@"请填写完整,价格大于0.5,小于10,000,000" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
         [alter show];
         [button setEnabled:YES];
         return;
@@ -224,12 +260,14 @@
 -(void)webMenuInsertSuccess
 {
     [[NSNotificationCenter defaultCenter] postNotificationName:@"menuFinish" object:nil];
+    [buttonRight setEnabled:YES];
     [self.navigationController popViewControllerAnimated:YES];
 }
 -(void)webMenuInsertFail
 {
     UIAlertView*alter=[[UIAlertView alloc] initWithTitle:nil message:@"菜单插入失败" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
     [alter show ];
+    [buttonRight setEnabled:YES];
 }
 -(void)webMenuChangeSuccess
 {
@@ -274,7 +312,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-    return 3;
+    return cellNumber;
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -301,6 +339,7 @@
     }
     if ([indexPath row]==1) {
         [cell.titleLabel setText:@"价格"];
+        [priceField removeFromSuperview];
         priceField=[[TSCurrencyTextField alloc] initWithFrame:cell.textField.frame];
         [priceField setKeyboardType:UIKeyboardTypeNumberPad];
         [cell.textField setHidden:YES];
@@ -329,7 +368,50 @@
         }
         return cell;
     }
+    if ([indexPath row]==3) {
+        UITableViewCell*cell;
+        if (!cell) {
+            cell=[[UITableViewCell alloc] init];
+            [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+        }
+        UIScrollView*cellScroller=[[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, cell.frame.size.width, cell.frame.size.height)];
+        for (int x=0; x<myServer.count; x++) {
+            NSDictionary*server=[myServer objectAtIndex:x];
+            int width=cell.frame.size.width/4;
+            UIButton*serverButton=[[UIButton alloc] initWithFrame:CGRectMake(0, 0, width-10, cell.frame.size.height-10)];
+            [serverButton setTitle:[server objectForKey:@"server_name"] forState:UIControlStateNormal];
+            [serverButton.titleLabel setFont:[UIFont systemFontOfSize:13.0f]];
+            [serverButton setCenter:CGPointMake(width*x+width/2, cell.frame.size.height/2)];
+            [serverButton setTitleColor:[UIColor colorWithRed:25.0/255.0 green:173.0/255.0 blue:220.0/255.0 alpha:1.0f] forState:UIControlStateNormal];
+            [serverButton addTarget:self action:@selector(serverTouchDown:) forControlEvents:UIControlEventTouchDown];
+            if([[server objectForKey:@"registed"] boolValue]==YES)
+            {
+                serverButton.layer.borderWidth=2;
+            }
+            serverButton.layer.borderColor=[UIColor colorWithRed:25.0/255.0 green:173.0/255.0 blue:220.0/255.0 alpha:1.0f].CGColor;
+            [serverButton setTag:x];
+            [cellScroller addSubview:serverButton];
+        }
+        [cell addSubview:cellScroller];
+        return cell;
+    }
     return cell;
+}
+-(void)serverTouchDown:(id)sender
+{
+    UIButton*btn=sender;
+    if (btn.layer.borderWidth>0) {
+        btn.layer.borderWidth=0;
+        NSMutableDictionary*server=[myServer objectAtIndex:btn.tag];
+        [server setObject:[NSNumber numberWithBool:NO] forKey:@"registed"];
+        [myServer replaceObjectAtIndex:btn.tag withObject:server];
+    }else
+    {
+        btn.layer.borderWidth=2;
+        NSMutableDictionary*server=[myServer objectAtIndex:btn.tag];
+        [server setObject:[NSNumber numberWithBool:YES] forKey:@"registed"];
+        [myServer replaceObjectAtIndex:btn.tag withObject:server];
+    }
 }
 #pragma mark -
 -(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex

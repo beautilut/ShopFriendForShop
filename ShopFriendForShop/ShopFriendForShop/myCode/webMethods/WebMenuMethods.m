@@ -28,6 +28,7 @@ static WebMenuMethods*shareMenu;
     NSString*info=[dic objectForKey:@"goodInfo"];
     NSString*shopID=[dic objectForKey:@"shopID"];
     NSNumber*count=[NSNumber numberWithInt:photoArray.count];
+    NSString*server=[[ToolMethods sharedMethods] JSONString:[dic objectForKey:@"server"]];
     //
     NSURL*url=[NSURL URLWithString:menuInsertURL];
     ASIFormDataRequest*request=[ASIFormDataRequest requestWithURL:url];
@@ -37,6 +38,7 @@ static WebMenuMethods*shareMenu;
     [request setPostValue:categoryID forKey:@"goodCategory"];
     [request setPostValue:count forKey:@"photoCount"];
     [request setPostValue:info forKey:@"goodInfo"];
+    [request setPostValue:server forKey:@"server"];
     for (int i=0; i<[count intValue]; i++) {
         UIImage*image=[photoArray objectAtIndex:i];
         NSData*imagedata=UIImageJPEGRepresentation(image,0.4f);
@@ -83,6 +85,8 @@ static WebMenuMethods*shareMenu;
     NSString*category=[dic objectForKey:@"goodCategory"];
     NSArray*photoArray=[dic objectForKey:@"goodPhoto"];
     NSNumber*count=[NSNumber numberWithInt:photoArray.count];
+    NSString*server=[[ToolMethods sharedMethods] JSONString:[dic objectForKey:@"server"]];
+    //
     NSURL*url=[NSURL URLWithString:menuChangeURL];
     ASIFormDataRequest*request=[ASIFormDataRequest requestWithURL:url];
     [request setPostValue:goodID forKey:@"goodID"];
@@ -93,6 +97,7 @@ static WebMenuMethods*shareMenu;
     [request setPostValue:category forKey:@"goodCategory"];
     [request setPostValue:count forKey:@"photoCount"];
     [request setPostValue:info forKey:@"goodInfo"];
+    [request setPostValue:server forKey:@"server"];
     for (int i=0; i<[count intValue]; i++) {
         UIImage*image=[photoArray objectAtIndex:i];
         NSData*imagedata=UIImageJPEGRepresentation(image,0.4f);

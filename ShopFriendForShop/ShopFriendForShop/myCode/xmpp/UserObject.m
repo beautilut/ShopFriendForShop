@@ -98,8 +98,8 @@
     FMResultSet *rs=[db executeQuery:@"select * from SFUser where friendFlag=?",[NSNumber numberWithInt:1]];
     while ([rs next]) {
         UserObject*user=[[UserObject alloc]init];
-        user.userId=[rs stringForColumn:kUSER_ID];
-        user.userNickname=[rs stringForColumn:kUSER_NICKNAME];
+        user.userId=[rs stringForColumn:sfUserID];
+        user.userNickname=[rs stringForColumn:sfUserName];
         //user.userHead=[rs stringForColumn:kUSER_USERHEAD];
         //user.userDescription=[rs stringForColumn:kUSER_DESCRIPTION];
         user.friendFlag=[NSNumber numberWithInt:1];
@@ -113,16 +113,16 @@
 +(UserObject*)userFromDictionary:(NSDictionary*)aDic
 {
     UserObject *user=[[UserObject alloc]init];
-    [user setUserId:[aDic objectForKey:kUSER_ID]];
+    [user setUserId:[aDic objectForKey:sfUserID]];
     //[user setUserHead:[aDic objectForKey:kUSER_USERHEAD]];
     //[user setUserDescription:[aDic objectForKey:kUSER_DESCRIPTION]];
-    [user setUserNickname:[aDic objectForKey:kUSER_NICKNAME]];
+    [user setUserNickname:[aDic objectForKey:sfUserName]];
     return user;
 }
 
 -(NSDictionary*)toDictionary
 {
-    NSDictionary *dic=[NSDictionary dictionaryWithObjectsAndKeys:userId,kUSER_ID,userNickname,kUSER_NICKNAME,friendFlag,kUSER_FRIEND_FLAG,nil];
+    NSDictionary *dic=[NSDictionary dictionaryWithObjectsAndKeys:userId,sfUserID,userNickname,sfUserName,friendFlag,sfUserFlag,nil];
     return dic;
 }
 

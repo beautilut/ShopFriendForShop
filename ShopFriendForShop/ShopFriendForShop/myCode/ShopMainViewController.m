@@ -19,6 +19,10 @@
     float scrollingKoef;
     UIButton*headImageButton;
     UITableView*table;
+    NSNumber*customNumber;
+    NSNumber*orderNumber;
+    UITableViewCell*customCell;
+    UITableViewCell*orderCell;
 }
 @end
 
@@ -66,7 +70,13 @@
 //    table.layer.borderColor=[UIColor whiteColor].CGColor;
     [backScrollView addSubview:table];
     
+    customNumber=[NSNumber numberWithInt:0];
+    orderNumber=[NSNumber numberWithInt:0];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setHeadImage:) name:@"logoGet" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeCustomNumber:) name:@"customNumberChange" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(clearcustomNumber:) name:@"CustomBadgeClear" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeOrderNumber:) name:@"orderNumberChange" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(clearOrderNumber:) name:@"OrderBadgeClear" object:nil];
 	// Do any additional setup after loading the view.
 }
 -(void)viewWillAppear:(BOOL)animated
@@ -111,33 +121,72 @@
     }
     return 0;
 }
-//-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-//{
-//
-//}
+-(void)changeCustomNumber:(id)sender
+{
+    int x=customNumber.integerValue+1;
+    customNumber=[NSNumber numberWithInt:x];
+    [customCell.detailTextLabel setText:[customNumber stringValue]];
+    [table reloadData];
+}
+-(void)clearcustomNumber:(id)sender
+{
+    customNumber=[NSNumber numberWithInt:0];
+    [customCell.detailTextLabel setText:@""];
+    [table reloadData];
+}
+-(void)changeOrderNumber:(id)sender
+{
+    int x=orderNumber.integerValue+1;
+    orderNumber=[NSNumber numberWithInt:x];
+    [orderCell.detailTextLabel setText:[orderNumber stringValue]];
+    [table reloadData];
+}
+-(void)clearOrderNumber:(id)sender
+{
+    orderNumber=[NSNumber numberWithInt:0];
+    [orderCell.detailTextLabel setText:@""];
+    [table reloadData];
+}
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    
+    if ([indexPath section]==0&&indexPath.row==1) {
+        customCell=[tableView dequeueReusableCellWithIdentifier:@"customCell"];
+        if (!customCell) {
+            customCell=[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"customCell"];
+            [customCell.textLabel setText:@"顾客"];
+            [customCell.detailTextLabel setText:@""];
+            [customCell.detailTextLabel setTextColor:[UIColor redColor]];
+            [customCell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
+        }
+        return customCell;
+    }
+    if ([indexPath section]==0&&indexPath.row==2) {
+        orderCell=[table dequeueReusableCellWithIdentifier:@"orderCell"];
+        if (!orderCell) {
+            orderCell=[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"orderCell"];
+            [orderCell.textLabel setText:@"订单"];
+            [orderCell.detailTextLabel setText:@""];
+            [orderCell.detailTextLabel setTextColor:[UIColor redColor]];
+            [orderCell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
+        }
+        return orderCell;
+    }
     UITableViewCell*cell=[tableView dequeueReusableCellWithIdentifier:@"HeadImageCell"];
     if (!cell) {
         cell=[[UITableViewCell alloc] init];
     }
     if ([indexPath section]==0&&indexPath.row==0) {
-        [cell.textLabel setText:@"我的店"];
-    }
-    if ([indexPath section]==0&&indexPath.row==1) {
-        [cell.textLabel setText:@"顾客"];
-    }
-    if ([indexPath section]==0&&indexPath.row==2) {
-        [cell.textLabel setText:@"店粉"];
+        [cell.textLabel setText:@"本店"];
     }
     if ([indexPath section]==1&&indexPath.row==0) {
-        [cell.textLabel setText:@"我的活动"];
+        [cell.textLabel setText:@"本店活动"];
     }
     if ([indexPath section]==1&&indexPath.row==1) {
-        [cell.textLabel setText:@"我的菜单"];
+        [cell.textLabel setText:@"本店菜单"];
     }
     if ([indexPath section]==1&&indexPath.row==2) {
-        [cell.textLabel setText:@"我的优惠券"];
+        [cell.textLabel setText:@"本店优惠券"];
     }
     if ([indexPath section]==2&&indexPath.row==0) {
         [cell.textLabel setText:@"设置"];
@@ -158,7 +207,7 @@
         [self performSegueWithIdentifier:@"TalkList" sender:nil];
     }
     if ([indexPath section]==0&&indexPath.row==2) {
-        [self performSegueWithIdentifier:@"fansController" sender:nil];
+        [self performSegueWithIdentifier:@"OrderController" sender:nil];
     }
     if ([indexPath section]==1&&indexPath.row==0) {
         [self performSegueWithIdentifier:@"shopActivity" sender:nil];

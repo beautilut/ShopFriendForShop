@@ -8,9 +8,11 @@
 
 #import "CouponViewController.h"
 #import "SFNaviBar.h"
+#import "NewCouponViewController.h"
 @interface CouponViewController ()
 {
     UITableView*couponTableView;
+    NSArray*couponArray;
 }
 @end
 
@@ -54,12 +56,17 @@
     [buttonRight setTitleColor:[UIColor colorWithRed:25.0/255.0 green:173.0/255.0 blue:220.0/255.0 alpha:1.0f] forState:UIControlStateNormal];
     [navi addSubview:buttonRight];
     
-    //tableView
-//    couponTableView=[[UITableView alloc] initWithFrame:CGRectMake(0, 0, screenBounds.size.width, screenBounds.size.height-navi.frame.size.height)];
-//    [couponTableView setDelegate:self];
-//    [couponTableView setDataSource:self];
-//    [self.view addSubview:couponTableView];
+    [[WebCouponMethods sharedCoupon] setDelegate:self];
+    [[WebCouponMethods sharedCoupon] webCouponGet];
     
+    //tableView
+    couponTableView=[[UITableView alloc] initWithFrame:CGRectMake(0, naviHight, screenBounds.size.width, screenBounds.size.height-navi.frame.size.height) style:UITableViewStyleGrouped];
+    [couponTableView setDelegate:self];
+    [couponTableView setDataSource:self];
+    
+    [self.view addSubview:couponTableView];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(newCouponGet:) name:@"newCoupon" object:nil];
     [self.view bringSubviewToFront:navi];
     // Do any additional setup after loading the view.
 }
@@ -73,13 +80,77 @@
 {
     [self.navigationController popViewControllerAnimated:YES];
 }
+-(void)newCouponGet:(id)sender
+{
+    [[WebCouponMethods sharedCoupon] setDelegate:self];
+    [[WebCouponMethods sharedCoupon] webCouponGet];
+}
 #pragma mark -tableView-
 -(void)addCoupon:(id)sender
 {
     UIStoryboard* mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    NewCouponViewController*newCoupon=[mainStoryboard instantiateViewControllerWithIdentifier:@"SFNewCoupon"];
-    [newCoupon setDelegate:self];
-    [self presentViewController:newCoupon animated:YES completion:nil];
+    UINavigationController*navi=[mainStoryboard instantiateViewControllerWithIdentifier:@"newCoupon"];
+    [self presentViewController:navi animated:YES completion:nil];
+}
+#pragma mark talbeViewDelegate
+-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return couponArray.count;
+}
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return 1;
+}
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 100.0f;
+}
+-(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
+    return 5.0f;
+}
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    return 8.0f;
+}
+-(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell*cell;
+    if (cell==nil) {
+        cell=[[UITableViewCell alloc] init];
+    }
+    NSDictionary*dic=[couponArray objectAtIndex:indexPath.section];
+    [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+    UILabel*namelabel=[[UILabel alloc] initWithFrame:CGRectMake(5, 5, cell.frame.size.width-10, 45)];
+    [namelabel setTextAlignment:NSTextAlignmentCenter];
+    [namelabel setFont:[UIFont systemFontOfSize:20.0f]];
+    [namelabel setText:[dic objectForKey:sfCouponModelName]];
+    [namelabel setTextColor:[UIColor colorWithRed:25.0/255.0 green:173.0/255.0 blue:220.0/255.0 alpha:1.0f]];
+    [cell addSubview:namelabel];
+    UILabel*dateLabel=[[UILabel alloc] initWithFrame:CGRectMake(5, 50, (cell.frame.size.width-10)/2, 45)];
+    [dateLabel setTextAlignment:NSTextAlignmentCenter];
+    NSString*date=[[dic objectForKey:sfCouponModelEndTime] substringToIndex:10];
+    [dateLabel setText:date];
+    [cell addSubview:dateLabel];
+    UILabel*numberLabel=[[UILabel alloc] initWithFrame:CGRectMake((cell.frame.size.width-10)/2, 50, (cell.frame.size.width-10)/2, 45)];
+    [numberLabel setText:[dic objectForKey:sfCouponModelNumber]];
+    [numberLabel setTextAlignment:NSTextAlignmentRight];
+    [cell addSubview:numberLabel];
+    return cell;
+}
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    
+    UIStoryboard* mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    UINavigationController*navi=[mainStoryboard instantiateViewControllerWithIdentifier:@"newCoupon"];
+    [(NewCouponViewController*)navi.topViewController getCoupon:[couponArray objectAtIndex:indexPath.section]];
+    [self presentViewController:navi animated:YES completion:nil];
+}
+#pragma mark couponDelegate
+-(void)webCouponGetSuccess:(NSArray *)dic
+{
+    couponArray=dic;
+    [couponTableView reloadData];
 }
 /*
 #pragma mark - Navigation

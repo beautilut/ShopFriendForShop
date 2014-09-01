@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "WebMenuMethods.h"
 #import "VPImageCropperViewController.h"
-@interface AddMenuViewController : UIViewController<VPImageCropperDelegate,UIActionSheetDelegate,UIImagePickerControllerDelegate,UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate,UINavigationControllerDelegate,UITextViewDelegate,WebMenuMethodsDelegate>
+@interface AddMenuViewController : UIViewController<VPImageCropperDelegate,UIActionSheetDelegate,UIImagePickerControllerDelegate,UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate,UINavigationControllerDelegate,UITextViewDelegate,WebMenuMethodsDelegate,webServerMethodsDelegate>
 {
     
 }

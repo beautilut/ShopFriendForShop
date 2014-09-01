@@ -39,6 +39,7 @@
     [button setTitle:@"返回" forState:UIControlStateNormal];
     [button setTitleColor:[UIColor colorWithRed:25.0/255.0 green:173.0/255.0 blue:220.0/255.0 alpha:1.0f] forState:UIControlStateNormal];
     [navi addSubview:button];
+    
     categoryTable=[[UITableView alloc] initWithFrame:CGRectMake(0, navi.frame.size.height, screenRect.size.width, screenRect.size.height-navi.frame.size.height) style:UITableViewStyleGrouped];
     [categoryTable setDelegate:self];
     [categoryTable setDataSource:self];

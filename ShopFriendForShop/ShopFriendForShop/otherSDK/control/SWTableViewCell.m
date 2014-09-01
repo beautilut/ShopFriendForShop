@@ -100,7 +100,7 @@ static NSString * const kTableViewCellContentView = @"UITableViewCellContentView
 @property (nonatomic) CGFloat height;
 
 // Views that live in the scroll view
-@property (nonatomic, weak) UIView *scrollViewContentView;
+
 @property (nonatomic, strong) SWUtilityButtonView *scrollViewButtonViewLeft;
 @property (nonatomic, strong) SWUtilityButtonView *scrollViewButtonViewRight;
 

@@ -42,6 +42,7 @@ static WebOrderMethods *shareOrder;
         SBJsonParser*parser=[[SBJsonParser alloc] init];
         NSDictionary*dic=[parser objectWithString:request.responseString];
         //待
+        
     }];
     [request setFailedBlock:^{
         //待
@@ -52,27 +53,30 @@ static WebOrderMethods *shareOrder;
     [request startAsynchronous];
 }
 
--(void)webOrderUpdate:(NSDictionary *)dic
+-(void)webOrderUpdate:(OrderObject*)aOrder
 {
-    //data
-    NSString*userID=[dic objectForKey:sfUserID];
-    NSString*orderID=[dic objectForKey:sfOrderID];
-    
     //web
     NSURL*url=[NSURL URLWithString:updateOrderURL];
-    ASIFormDataRequest*request=[ASIHTTPRequest requestWithURL:url];
-    [request setPostValue:userID forKey:sfUserID];
-    [request setPostValue:orderID forKey:sfOrderID];
+    ASIFormDataRequest*request=[ASIFormDataRequest requestWithURL:url];
+    [request setPostValue:aOrder.userID forKey:@"to"];
+    [request setPostValue:aOrder.shopID forKey:@"from"];
+    [request setPostValue:@"shop" forKey:@"kind"];
+    [request setPostValue:aOrder.orderID forKey:sfOrderID];
+    [request setPostValue:aOrder.orderStatus forKey:sfOrderStatus];
     [request setCompletionBlock:^{
-        //待
-        if ([delegate respondsToSelector:@selector(webOrderUpdateSuccess)]) {
-            [delegate webOrderInsertSuccess];
+        SBJsonParser*parser=[[SBJsonParser alloc] init];
+        NSDictionary*dic=[parser objectWithString:request.responseString];
+        if ([[dic objectForKey:@"back"] integerValue]==1) {
+            if ([OrderObject updateOrder:aOrder]) {
+                if ([delegate respondsToSelector:@selector(webOrderUpdateSuccess)]) {
+                    [delegate webOrderUpdateSuccess];
+            }
+            }
         }
     }];
     [request setFailedBlock:^{
-        //待
         if ([delegate respondsToSelector:@selector(webOrderUpdateFail)]) {
-            [delegate webOrderInsertFail];
+            [delegate webOrderUpdateFail];
         }
     }];
     [request startAsynchronous];
@@ -87,17 +91,44 @@ static WebOrderMethods *shareOrder;
         SBJsonParser*parser=[[SBJsonParser alloc] init];
         NSDictionary*dic=[parser objectWithString:request.responseString];
         if ([[dic objectForKey:@"back"] integerValue]==1) {
-            NSLog(@"%@",[dic objectForKey:@"order"]);
-            
-        }
-        if ([delegate respondsToSelector:@selector(webOrderGetSuccess)]) {
-            [delegate webOrderGetSuccess];
+//            OrderObject*aOrder=[OrderObject orderFromDictionary:[dic objectForKey:@"order"]];
+//            [OrderObject saveNewOrder:aOrder];
+//            NSArray*detailArray=[dic objectForKey:@"orderDetail"];
+//            for (NSDictionary*detailDic in detailArray) {
+//                OrderDetailObject*aDetail=[OrderDetailObject orderFromDictionary:detailDic];
+//                [OrderDetailObject saveNewOrderDetial:aDetail];
+//            }
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"orderNumberChange" object:nil];
+            [[InfoManager sharedInfo] playAudio:@"order"];
         }
     }];
     [request setFailedBlock:^{
-        //
-        if ([delegate respondsToSelector:@selector(webOrderGetFail)]) {
-            [delegate webOrderGetFail];
+       
+    }];
+    [request startAsynchronous];
+}
+-(void)getAllOrders
+{
+    NSURL*url=[NSURL URLWithString:getAllOrderURL];
+    ASIFormDataRequest*request=[ASIFormDataRequest requestWithURL:url];
+    [request setPostValue:[InfoManager sharedInfo].myShop.shopID forKey:@"shop_ID"];
+    [request setCompletionBlock:^{
+        
+        SBJsonParser*parser=[[SBJsonParser alloc] init];
+        NSDictionary*dic=[parser objectWithString:request.responseString];
+        if ([[dic objectForKey:@"back"] integerValue]==1) {
+        if ([delegate respondsToSelector:@selector(getAllOrdersSuccess:)]) {
+            [delegate getAllOrdersSuccess:dic];
+        }
+        }else{
+            if ([delegate respondsToSelector:@selector(getAllOrdersFail)]) {
+                [delegate getAllOrdersFail];
+            }
+        }
+    }];
+    [request setFailedBlock:^{
+        if ([delegate respondsToSelector:@selector(getAllOrdersFail)]) {
+            [delegate getAllOrdersFail];
         }
     }];
     [request startAsynchronous];
